@@ -1,0 +1,8 @@
+.modal {
+  display: none;
+  height: 50px;
+}
+
+.modal__opened {
+  display: flex;
+}

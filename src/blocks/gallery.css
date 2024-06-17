@@ -1,0 +1,39 @@
+.gallery__container {
+  margin-bottom: 40px;
+}
+
+.gallery__header {
+  line-height: 1.24;
+  margin: 0 0 34px;
+}
+
+.gallery__card {
+  cursor: pointer;
+  height: 328px;
+  width: 325px;
+  border: solid 1px #0000004d;
+  border-radius: 20px;
+  padding-top: 15px;
+  background-image: url("../assets/T-Shirt.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+}
+
+.gallery__card-title-container {
+  display: inline-block;
+  background-color: #fff;
+  height: min-content;
+  padding: 2px 12px;
+  border-radius: 4px;
+}
+
+.gallery__card-title {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: bold;
+  color: #0009;
+}

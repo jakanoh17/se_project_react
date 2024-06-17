@@ -1,0 +1,40 @@
+.header {
+  font-size: 20px;
+  font-weight: medium;
+  line-height: 1.2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__left-side,
+.header__right-side {
+  display: flex;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.header__logo {
+  margin-right: 24px;
+}
+
+.header__add-clothes-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.header__date-loc,
+.header__name {
+  margin: 0;
+}
+
+.header__name {
+  margin-left: 20px;
+}
+
+.header__avatar {
+  width: 40px;
+  height: 40px;
+  margin-left: 12px;
+}

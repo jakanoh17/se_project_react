@@ -1,0 +1,13 @@
+.footer {
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1.25;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 171px;
+}
+
+.footer__copyright,
+.footer__prod-year {
+  margin: 0;
+}
