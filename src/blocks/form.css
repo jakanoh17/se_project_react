@@ -1,0 +1,100 @@
+.form {
+  background-color: #fff;
+  border: solid 1px #0000004d;
+  border-radius: 20px;
+  max-width: 496px;
+  width: 496px;
+  position: relative;
+  padding: 28px 28px 36px;
+}
+
+.form__title {
+  margin: 0 0 24px;
+}
+
+.form__entries {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: reapeat(auto-fit, min-content);
+  gap: 24px;
+}
+
+.form__sub-title {
+  margin: 0 0 12px 0;
+}
+
+.form__label {
+  display: block;
+}
+
+.form__label_type_radio {
+  margin-bottom: 8px;
+  color: #00000080;
+  vertical-align: middle;
+  display: flex;
+}
+
+.form__input:not([type="radio"]):not([type="checkbox"]) {
+  display: block;
+  margin-top: 8px;
+  width: 100%;
+  border: none;
+  border-bottom: solid 1px #000;
+}
+
+.form__input_type_radio {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.form__radio-opt {
+  border-radius: 50%;
+  border: solid 1px #000;
+  height: 16px;
+  width: 16px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  order: 1;
+  margin: 0 8px 0 0;
+}
+
+.form__chk-radio-opt {
+  visibility: hidden;
+  border-radius: 50%;
+  background-color: #000;
+  height: 12px;
+  width: 12px;
+}
+
+.form__input_type_radio:checked + .form__radio-span {
+  color: #000;
+}
+
+.form__radio-span {
+  order: 2;
+}
+
+.form__input_type_radio:checked ~ .form__radio-opt > .form__chk-radio-opt {
+  visibility: visible;
+}
+
+.form__submit-btn {
+  background-color: #000;
+  padding: 8px 16px;
+  color: #fff;
+  border-radius: 4px;
+  border: none;
+  margin-top: 32px;
+  display: block;
+  cursor: pointer;
+}
+
+.form__submit-btn:hover {
+  background-color: #0009;
+}
+
+.form__submit-btn_disabled {
+  background-color: #0000004d;
+}

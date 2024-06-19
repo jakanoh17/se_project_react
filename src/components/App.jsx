@@ -1,11 +1,10 @@
-import "../blocks/App.css";
+import WeatherApi from "../utils/weatherApi.js";
 import Header from "./Header";
 import Main from "./Main";
 import React from "react";
 import Footer from "./Footer";
 import ModalWithForm from "./ModalWithForm";
 import ItemModal from "./ItemModal";
-import WeatherApi from "../utils/weatherApi";
 
 function App() {
   //used states for location, in case someone is accessing this on mobile
@@ -14,6 +13,9 @@ function App() {
   const [city, setCity] = React.useState("Current Location");
   const [temp, setTemp] = React.useState();
   const [genWeather, setGenWeather] = React.useState();
+
+  const [modalDisplay, setModalDisplay] = React.useState("");
+  const [currentItem, setCurrentItem] = React.useState("");
 
   React.useEffect(() => {
     if (navigator.geolocation) {
@@ -29,7 +31,7 @@ function App() {
     } else {
       console.error("Geolocation is not supported on this browser.");
     }
-  }, [latitude, longitude]);
+  }, []);
 
   React.useEffect(() => {
     if (longitude && latitude) {
@@ -45,13 +47,117 @@ function App() {
     }
   }, [latitude, longitude]);
 
+  function handleOpenModalOnClick() {
+    setModalDisplay("modal__opened");
+  }
+  function handleCloseModal() {
+    setModalDisplay("");
+  }
+  function handleEscToCloseModal(evt) {
+    if (evt.key === "Escape") {
+      setModalDisplay("");
+    }
+  }
+  function hndlOutsideClkToCloseModal(evt) {
+    if (evt.target === evt.currentTarget) {
+      setModalDisplay("");
+    }
+  }
+  function handleImageClick(evt) {
+    setCurrentItem(evt.currentTarget);
+  }
+
   return (
-    <div className="page">
-      <Header city={city}/>
-      <Main temp={temp} />
+    <div className="page" onKeyDown={handleEscToCloseModal}>
+      <Header city={city} addClothesHandler={handleOpenModalOnClick} />
+      <Main temp={temp} onImgClick={handleImageClick} />
       <Footer />
-      <ModalWithForm />
-      <ItemModal />
+      <ModalWithForm
+        display={modalDisplay}
+        name="add-garment"
+        title="New garment"
+        buttonText="Add garment"
+        //should be called when the user clicks on the close button, clicks outside of the modal content, or presses the Escape button
+        onClose={handleCloseModal}
+        onOutsideClick={hndlOutsideClkToCloseModal}
+      >
+        <div className="form__entries">
+          <label className="form__label">
+            Name
+            <input
+              type="text"
+              className="form__input"
+              placeholder="Name"
+              required
+            />
+          </label>
+          <label className="form__label">
+            Image
+            <input
+              type="url"
+              className="form__input"
+              placeholder="Image URL"
+              required
+            />
+          </label>
+          <div className="form__radio-container">
+            <h4 className="form__sub-title">Select the weather types:</h4>
+            <label htmlFor="hot" className="form__label form__label_type_radio">
+              <input
+                type="radio"
+                name="wthr-type"
+                value="hot"
+                id="hot"
+                className="form__input form__input_type_radio"
+              />
+              <span className="form__radio-span">Hot</span>
+              <div className="form__radio-opt">
+                <div className="form__chk-radio-opt"></div>
+              </div>
+            </label>
+            <label
+              htmlFor="warm"
+              className="form__label form__label_type_radio"
+            >
+              <input
+                type="radio"
+                name="wthr-type"
+                value="warm"
+                id="warm"
+                className="form__input form__input_type_radio"
+              />
+              <span className="form__radio-span">Warm</span>{" "}
+              <div className="form__radio-opt">
+                <div className="form__chk-radio-opt"></div>
+              </div>
+            </label>
+            <label
+              htmlFor="cold"
+              className="form__label form__label_type_radio"
+            >
+              <input
+                type="radio"
+                name="wthr-type"
+                value="cold"
+                id="cold"
+                className="form__input form__input_type_radio"
+              />
+              <span className="form__radio-span">Cold</span>
+              <div className="form__radio-opt">
+                <div className="form__chk-radio-opt"></div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </ModalWithForm>
+      <ItemModal
+        onClose={handleCloseModal}
+        onOutsideClick={hndlOutsideClkToCloseModal}
+        display={modalDisplay}
+        name
+        weather
+        image
+      />
     </div>
   );
 }

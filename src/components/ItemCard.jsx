@@ -1,12 +1,14 @@
-import "../blocks/gallery.css";
-
-function ItemCard() {
+function ItemCard(props) {
   return (
-    <div className="gallery__card">
+    <li
+      className="gallery__card"
+      style={{ backgroundImage: `url(${props.image})` }}
+      onClick={props.onImgClick}
+    >
       <div className="gallery__card-title-container">
-        <p className="gallery__card-title">T-shirt</p>
+        <p className="gallery__card-title">{props.title || "Card Title"}</p>
       </div>
-    </div>
+    </li>
   );
 }
 

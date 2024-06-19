@@ -3,18 +3,26 @@
 }
 
 .gallery__header {
-  line-height: 1.24;
   margin: 0 0 34px;
+}
+
+.gallery__cards {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max-content, 325px));
+  gap: 20px;
+  justify-content: center;
 }
 
 .gallery__card {
   cursor: pointer;
   height: 328px;
-  width: 325px;
+  max-width: 325px;
   border: solid 1px #0000004d;
   border-radius: 20px;
   padding-top: 15px;
-  background-image: url("../assets/T-Shirt.jpg");
+  background-image: none;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -32,8 +40,5 @@
 
 .gallery__card-title {
   margin: 0;
-  font-size: 16px;
-  line-height: 1.25;
-  font-weight: bold;
   color: #0009;
 }

@@ -1,10 +1,11 @@
-.footer {
-  font-size: 16px;
-  font-weight: normal;
-  line-height: 1.25;
+.footer{
+  font-weight: 500;
   display: flex;
   justify-content: space-between;
-  margin-top: 171px;
+}
+
+.footer__container{
+  margin-top: auto;
 }
 
 .footer__copyright,

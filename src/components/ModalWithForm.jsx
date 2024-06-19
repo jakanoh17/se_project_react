@@ -1,11 +1,27 @@
 import React from "react";
 
-function ModalWithForm() {
-  const [display, setDisplay] = React.useState("");
-
+function ModalWithForm(props) {
   return (
-    <div className={`modal${display}`}>
-      <form action="" className="modal__form"></form>
+    <div
+      className={`modal modal_type_${props.name} ${props.display}`}
+      onClick={props.onOutsideClick}
+    >
+      <form action="" className="form" name={props.name}>
+        <button
+          type="button"
+          className="modal__close-btn"
+          onClick={props.onClose}
+        ></button>
+        <h3 className="form__title">{props.title}</h3>
+        {props.children}
+        <button
+          type="submit"
+          className="form__submit-btn form__submit-btn_disabled"
+          disabled
+        >
+          {props.buttonText}
+        </button>
+      </form>
     </div>
   );
 }

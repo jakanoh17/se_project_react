@@ -11,4 +11,5 @@
   font-style: bold;
   font-weght: 700;
   src: url("./fonts/CabinetGrotesk-Bold.woff2");
+  font-display: swap;
 }

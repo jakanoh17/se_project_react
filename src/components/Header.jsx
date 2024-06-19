@@ -1,6 +1,5 @@
 import headerLogo from "../assets/logo.svg";
 import headerAvatar from "../assets/avatar.png";
-import "../blocks/Header.css";
 
 function Header(props) {
   const currentDate = new Date().toLocaleString("default", {
@@ -9,10 +8,6 @@ function Header(props) {
   });
 
   const currentLocation = props.city;
-
-  function handleAddClothesClick() {
-    setDisplay(" modal__opened");
-  }
 
   return (
     <div className="header">
@@ -29,6 +24,7 @@ function Header(props) {
         <button
           type="button"
           className="header__add-clothes-btn"
+          onClick={props.addClothesHandler}
         >
           + Add clothes
         </button>
