@@ -16,29 +16,33 @@
 }
 
 .gallery__card {
-  cursor: pointer;
+  list-style: none;
+}
+
+.gallery__card-content {
   height: 328px;
   max-width: 325px;
   border: solid 1px #0000004d;
   border-radius: 20px;
-  padding-top: 15px;
-  background-image: none;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  overflow: hidden;
   display: flex;
   justify-content: center;
-}
-
-.gallery__card-title-container {
-  display: inline-block;
-  background-color: #fff;
-  height: min-content;
-  padding: 2px 12px;
-  border-radius: 4px;
+  position: relative;
 }
 
 .gallery__card-title {
   margin: 0;
   color: #0009;
+  background-color: #fff;
+  padding: 2px 12px;
+  border-radius: 4px;
+  z-index: 1;
+  position: absolute;
+  top: 15px;
+}
+
+.gallery__card-image {
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
 }

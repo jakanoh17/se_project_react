@@ -30,12 +30,13 @@ function Main(props) {
         <ul className="gallery__cards">
           {clothing.map((item) => {
             return (
-              <ItemCard
-                key={item._id}
-                image={item.link}
-                title={item.name}
-                onImgClick={props.onImgClick}
-              />
+              <li key={item._id} className="gallery__card">
+                <ItemCard
+                  image={item.link}
+                  title={item.name}
+                  onImgClick={props.onImgClick}
+                />
+              </li>
             );
           })}
         </ul>

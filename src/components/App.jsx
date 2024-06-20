@@ -14,8 +14,11 @@ function App() {
   const [temp, setTemp] = React.useState();
   const [genWeather, setGenWeather] = React.useState();
 
-  const [modalDisplay, setModalDisplay] = React.useState("");
+  const [formModalDisplay, setFormModalDisplay] = React.useState("");
+  const [itemModalDisplay, setItemModalDisplay] = React.useState("");
+
   const [currentItem, setCurrentItem] = React.useState("");
+  const openedModalClass = "modal_opened";
 
   React.useEffect(() => {
     if (navigator.geolocation) {
@@ -47,38 +50,55 @@ function App() {
     }
   }, [latitude, longitude]);
 
-  function handleOpenModalOnClick() {
-    setModalDisplay("modal__opened");
+  function openModal(evt) {
+    const tgtClassList = Array.from(evt.currentTarget.classList);
+
+    if (tgtClassList.includes("header__add-clothes-btn")) {
+      setFormModalDisplay(openedModalClass);
+    }
+    if (tgtClassList.includes("gallery__card")) {
+      setItemModalDisplay(openedModalClass);
+      setCurrentItem(evt.curentTarget);
+    }
   }
-  function handleCloseModal() {
-    setModalDisplay("");
+
+  function closeModal(evt) {
+    const tgtClassList = Array.from(evt.currentTarget.classList);
+
+    if (tgtClassList.includes("modal__close-btn_container_enlg-item")) {
+      setItemModalDisplay("");
+    }
+    if (tgtClassList.includes("modal__close-btn_container_form")) {
+      setFormModalDisplay("");
+    }
   }
+
   function handleEscToCloseModal(evt) {
     if (evt.key === "Escape") {
-      setModalDisplay("");
+      setFormModalDisplay("");
+      setItemModalDisplay("");
     }
   }
+
   function hndlOutsideClkToCloseModal(evt) {
     if (evt.target === evt.currentTarget) {
-      setModalDisplay("");
+      setFormModalDisplay("");
+      setItemModalDisplay("");
     }
-  }
-  function handleImageClick(evt) {
-    setCurrentItem(evt.currentTarget);
   }
 
   return (
     <div className="page" onKeyDown={handleEscToCloseModal}>
-      <Header city={city} addClothesHandler={handleOpenModalOnClick} />
-      <Main temp={temp} onImgClick={handleImageClick} />
+      <Header city={city} addClothesHandler={openModal} />
+      <Main temp={temp} onImgClick={openModal} />
       <Footer />
       <ModalWithForm
-        display={modalDisplay}
+        display={formModalDisplay}
         name="add-garment"
         title="New garment"
         buttonText="Add garment"
         //should be called when the user clicks on the close button, clicks outside of the modal content, or presses the Escape button
-        onClose={handleCloseModal}
+        onClose={closeModal}
         onOutsideClick={hndlOutsideClkToCloseModal}
       >
         <div className="form__entries">
@@ -151,12 +171,10 @@ function App() {
         </div>
       </ModalWithForm>
       <ItemModal
-        onClose={handleCloseModal}
+        onClose={closeModal}
         onOutsideClick={hndlOutsideClkToCloseModal}
-        display={modalDisplay}
-        name
-        weather
-        image
+        display={itemModalDisplay}
+        card={currentItem}
       />
     </div>
   );

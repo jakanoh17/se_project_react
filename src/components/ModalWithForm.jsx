@@ -9,7 +9,7 @@ function ModalWithForm(props) {
       <form action="" className="form" name={props.name}>
         <button
           type="button"
-          className="modal__close-btn"
+          className="modal__close-btn modal__close-btn_container_form"
           onClick={props.onClose}
         ></button>
         <h3 className="form__title">{props.title}</h3>

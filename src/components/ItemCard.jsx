@@ -1,14 +1,14 @@
 function ItemCard(props) {
   return (
-    <li
-      className="gallery__card"
-      style={{ backgroundImage: `url(${props.image})` }}
-      onClick={props.onImgClick}
-    >
-      <div className="gallery__card-title-container">
-        <p className="gallery__card-title">{props.title || "Card Title"}</p>
-      </div>
-    </li>
+    <div className="gallery__card-content">
+      <img
+        onClick={props.onImgClick}
+        src={props.image}
+        alt={props.title}
+        className="gallery__card-image"
+      />
+      <h3 className="gallery__card-title">{props.title}</h3>
+    </div>
   );
 }
 

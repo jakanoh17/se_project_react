@@ -1,15 +1,23 @@
 function ItemModal(props) {
+  const imgSrc = props.card.src;
+  console.log(imgSrc);
+
   return (
-    <div className={`modal modal_type_item ${props.display}`}>
-      <div className="item-card">
+    <div
+      onClick={props.onOutsideClick}
+      className={`modal modal_type_item ${props.display}`}
+    >
+      <div className="modal__item">
         <button
-          className="modal__close-btn"
+          className="modal__close-btn modal__close-btn_container_enlg-item"
           type="button"
           onClick={props.onClose}
         ></button>
-        {/* <img src={props.image} alt={props.name} className="item-card__image" /> */}
-        <p className="item-card__name">{props.name}</p>
-        <p className="item-card__weather">Weather: {props.weather}</p>
+        <img src={imgSrc} alt={props.name} className="modal__image" />
+        <div className="modal__caption">
+          <p className="modal__item-name">{props.name}</p>
+          <p className="modal__weather">Weather: {props.weather}</p>
+        </div>
       </div>
     </div>
   );
