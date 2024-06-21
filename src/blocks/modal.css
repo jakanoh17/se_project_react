@@ -12,10 +12,23 @@
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 2;
 }
 
 .modal__item {
   position: relative;
+  width: 498px;
+  height: 610px;
+  background-color: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto auto;
+}
+
+.modal__image {
+  height: 100%;
+  width: 100%;
 }
 
 .modal__close-btn {
@@ -39,15 +52,6 @@
   width: 20px;
   top: 24px;
   right: 24px;
-}
-
-.modal__item {
-  width: 498px;
-  height: 610px;
-  background-color: #fff;
-  border-radius: 16px;
-  display: grid;
-  grid-template-rows: auto auto;
 }
 
 .modal__caption {

@@ -36,3 +36,8 @@ export const defaultClothingItems = [
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/Coat.png?etag=298717ed89d5e40b1954a1831ae0bdd4",
   },
 ];
+
+export const weatherApiKey = "95b5ff3b2cba1d235f3db91c36b13015";
+export function convertTempFromKToF(K) {
+  return ((K - 273.15) * 9) / 5 + 32;
+}

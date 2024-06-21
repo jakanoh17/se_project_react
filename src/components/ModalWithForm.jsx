@@ -3,7 +3,9 @@ import React from "react";
 function ModalWithForm(props) {
   return (
     <div
-      className={`modal modal_type_${props.name} ${props.display}`}
+      className={`modal modal_type_${props.name} ${
+        props.activeModal == "form" ? "modal_opened" : ""
+      }`}
       onClick={props.onOutsideClick}
     >
       <form action="" className="form" name={props.name}>

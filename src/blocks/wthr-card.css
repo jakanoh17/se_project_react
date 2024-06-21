@@ -1,7 +1,6 @@
 .wthr-card {
   height: 80px;
   width: 100%;
-  background-color: #00a3ff;
   border-radius: 12px;
   overflow: hidden;
   display: flex;
@@ -13,6 +12,18 @@
   margin-bottom: 40px;
 }
 
+.wthr-card__wthr-type_clear,
+.wthr-card__wthr-type_clouds {
+  background-color: #00a3ff;
+}
+
+.wthr-card__wthr-type_rain,
+.wthr-card__wthr-type_thunderstorm,
+.wthr-card__wthr-type_snow,
+.wthr-card__wthr-type_atmosphere {
+  background-color: #6ca6c7;
+}
+
 .wthr-card__temp {
   color: #fff;
   line-height: 1.1;
@@ -20,12 +31,46 @@
   margin: 0 0 0 16px;
 }
 
-.wthr-card__sun {
-  height: 60px;
-  width: 60px;
-  border-radius: 50%;
-  background-color: #ffe600;
+.wthr-card__celest-bod {
+  visibility: hidden;
   position: absolute;
   top: -10px;
   right: -8px;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+}
+
+.wthr-card__celest-bod_wthr-type__clear,
+.wthr-card__celest-bod_wthr-type_clouds {
+  visibility: visible;
+  background-color: #ffe600;
+}
+
+.wthr-card__clouds {
+  visibility: hidden;
+  position: absolute;
+  max-width: 118px;
+}
+
+.wthr-card__clouds_wthr-type_clouds,
+.wthr-card__clouds_wthr-type_rain,
+.wthr-card__clouds_wthr-type_thunderstorm,
+.wthr-card__clouds_wthr-type_snow,
+.wthr-card__clouds_wthr-type_atmosphere {
+  visibility: visible;
+}
+
+.wthr-card__clouds_wthr-type_clouds {
+  bottom: 0px;
+  right: 0px;
+}
+
+.wthr-card__clouds_wthr-type_rain,
+.wthr-card__clouds_wthr-type_thunderstorm,
+.wthr-card__clouds_wthr-type_snow,
+.wthr-card__clouds_wthr-type_atmosphere {
+  height: 100%;
+  top: 0px;
+  right: 0px;
 }

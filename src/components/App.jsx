@@ -5,20 +5,23 @@ import React from "react";
 import Footer from "./Footer";
 import ModalWithForm from "./ModalWithForm";
 import ItemModal from "./ItemModal";
+import {
+  defaultClothingItems,
+  weatherApiKey,
+  convertTempFromKToF,
+} from "../utils/constants.js";
 
 function App() {
   //used states for location, in case someone is accessing this on mobile
-  const [latitude, setLatitude] = React.useState();
-  const [longitude, setLongitude] = React.useState();
   const [city, setCity] = React.useState("Current Location");
   const [temp, setTemp] = React.useState();
   const [genWeather, setGenWeather] = React.useState();
-
-  const [formModalDisplay, setFormModalDisplay] = React.useState("");
-  const [itemModalDisplay, setItemModalDisplay] = React.useState("");
+  const [latitude, setLatitude] = React.useState();
+  const [longitude, setLongitude] = React.useState();
+  const [activeModal, setActiveModal] = React.useState("");
+  const [clothing, setClothing] = React.useState(defaultClothingItems);
 
   const [currentItem, setCurrentItem] = React.useState("");
-  const openedModalClass = "modal_opened";
 
   React.useEffect(() => {
     if (navigator.geolocation) {
@@ -40,60 +43,62 @@ function App() {
     if (longitude && latitude) {
       const weatherApi = new WeatherApi(latitude, longitude);
       weatherApi
-        .callWeatherApi()
+        .callWeatherApi(weatherApiKey)
         .then((data) => {
           setCity(data.name);
-          setTemp(Math.round(((data.main.temp - 273.15) * 9) / 5 + 32));
+          setTemp(Math.round(convertTempFromKToF(data.main.temp)));
           setGenWeather(data.weather[0].main);
         })
         .catch((err) => console.error(err));
     }
   }, [latitude, longitude]);
 
-  function openModal(evt) {
-    const tgtClassList = Array.from(evt.currentTarget.classList);
-
-    if (tgtClassList.includes("header__add-clothes-btn")) {
-      setFormModalDisplay(openedModalClass);
-    }
-    if (tgtClassList.includes("gallery__card")) {
-      setItemModalDisplay(openedModalClass);
-      setCurrentItem(evt.curentTarget);
-    }
-  }
-
-  function closeModal(evt) {
-    const tgtClassList = Array.from(evt.currentTarget.classList);
-
-    if (tgtClassList.includes("modal__close-btn_container_enlg-item")) {
-      setItemModalDisplay("");
-    }
-    if (tgtClassList.includes("modal__close-btn_container_form")) {
-      setFormModalDisplay("");
-    }
-  }
-
   function handleEscToCloseModal(evt) {
     if (evt.key === "Escape") {
-      setFormModalDisplay("");
-      setItemModalDisplay("");
+      setActiveModal("");
     }
+  }
+
+  React.useEffect(() => {
+    document.addEventListener("keydown", handleEscToCloseModal);
+    return () => {
+      document.removeEventListener("keydown", handleEscToCloseModal);
+    };
+  }, []);
+
+  function openFormModal() {
+    setActiveModal("form");
+  }
+
+  function openImgModal(card) {
+    setActiveModal("item-image");
+    setCurrentItem(card);
+  }
+
+  function closeModal() {
+    setActiveModal("");
   }
 
   function hndlOutsideClkToCloseModal(evt) {
     if (evt.target === evt.currentTarget) {
-      setFormModalDisplay("");
-      setItemModalDisplay("");
+      setActiveModal("");
     }
   }
 
   return (
-    <div className="page" onKeyDown={handleEscToCloseModal}>
-      <Header city={city} addClothesHandler={openModal} />
-      <Main temp={temp} onImgClick={openModal} />
+    <div className="page">
+      <Header city={city} addClothesHandler={openFormModal} />
+      <Main
+        temp={temp}
+        onImgClick={openImgModal}
+        weatherType={genWeather}
+        location={{ latitude, longitude }}
+        clothing={clothing}
+        setClothing={setClothing}
+      />
       <Footer />
       <ModalWithForm
-        display={formModalDisplay}
+        activeModal={activeModal}
         name="add-garment"
         title="New garment"
         buttonText="Add garment"
@@ -171,9 +176,10 @@ function App() {
         </div>
       </ModalWithForm>
       <ItemModal
+        activeModal={activeModal}
         onClose={closeModal}
         onOutsideClick={hndlOutsideClkToCloseModal}
-        display={itemModalDisplay}
+        // display={itemModalDisplay}
         card={currentItem}
       />
     </div>

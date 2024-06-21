@@ -1,18 +1,15 @@
 import WeatherCard from "./WeatherCard";
 import React from "react";
 import ItemCard from "./ItemCard";
-import { defaultClothingItems } from "../utils/constants.js";
 
 function Main(props) {
-  const [clothing, setClothing] = React.useState(defaultClothingItems);
-
   React.useEffect(() => {
     if (props.temp) {
       const weather = determineWeatherType();
-      const filteredClothes = defaultClothingItems.filter((item) => {
+      const filteredClothes = props.clothing.filter((item) => {
         return weather == item.weather;
       });
-      setClothing(filteredClothes);
+      props.setClothing(filteredClothes);
     }
   }, [props.temp]);
 
@@ -22,20 +19,20 @@ function Main(props) {
 
   return (
     <>
-      <WeatherCard temp={props.temp} />
+      <WeatherCard
+        temp={props.temp}
+        weatherType={props.weatherType}
+        location={props.location}
+      />
       <div className="gallery gallery__container">
         <h2 className="gallery__header">
           Today is {props.temp || "--"}° F / You may want to wear:
         </h2>
         <ul className="gallery__cards">
-          {clothing.map((item) => {
+          {props.clothing.map((item) => {
             return (
               <li key={item._id} className="gallery__card">
-                <ItemCard
-                  image={item.link}
-                  title={item.name}
-                  onImgClick={props.onImgClick}
-                />
+                <ItemCard item={item} onImgClick={props.onImgClick} />
               </li>
             );
           })}
