@@ -4,7 +4,7 @@ function ModalWithForm(props) {
   return (
     <div
       className={`modal modal_type_${props.name} ${
-        props.isOpen == "form" ? "modal_opened" : ""
+        props.isOpen ? "modal_opened" : ""
       }`}
       onClick={props.onOutsideClick}
     >

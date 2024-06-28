@@ -17,8 +17,8 @@ function App() {
   const [clothing, setClothing] = React.useState(defaultClothingItems);
   const [currentItem, setCurrentItem] = React.useState({});
 
-  function openFormModal() {
-    setActiveModal("form");
+  function openGarmentModal() {
+    setActiveModal("garment-form");
   }
 
   function openImgModal(card) {
@@ -65,11 +65,11 @@ function App() {
     return () => {
       document.removeEventListener("keydown", handleEscToCloseModal);
     };
-  }, [closeModal]);
+  }, [closeModal, activeModal]);
 
   return (
     <div className="page">
-      <Header city={city} addClothesHandler={openFormModal} />
+      <Header city={city} addClothesHandler={openGarmentModal} />
       <Main
         temp={temp}
         onImgClick={openImgModal}
@@ -79,7 +79,7 @@ function App() {
       />
       <Footer />
       <ModalWithForm
-        isOpen={activeModal}
+        isOpen={activeModal === "garment-form"}
         name="add-garment"
         title="New garment"
         buttonText="Add garment"
