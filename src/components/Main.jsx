@@ -18,12 +18,8 @@ function Main(props) {
   }
 
   return (
-    <>
-      <WeatherCard
-        temp={props.temp}
-        weatherType={props.weatherType}
-        location={props.location}
-      />
+    <main>
+      <WeatherCard temp={props.temp} weatherType={props.weatherType} />
       <div className="gallery gallery__container">
         <h2 className="gallery__header">
           Today is {props.temp || "--"}° F / You may want to wear:
@@ -38,7 +34,7 @@ function Main(props) {
           })}
         </ul>
       </div>
-    </>
+    </main>
   );
 }
 

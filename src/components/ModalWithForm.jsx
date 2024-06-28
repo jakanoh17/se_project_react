@@ -4,7 +4,7 @@ function ModalWithForm(props) {
   return (
     <div
       className={`modal modal_type_${props.name} ${
-        props.activeModal == "form" ? "modal_opened" : ""
+        props.isOpen == "form" ? "modal_opened" : ""
       }`}
       onClick={props.onOutsideClick}
     >
@@ -13,7 +13,7 @@ function ModalWithForm(props) {
           type="button"
           className="modal__close-btn modal__close-btn_container_form"
           onClick={props.onClose}
-        ></button>
+        />
         <h3 className="form__title">{props.title}</h3>
         {props.children}
         <button

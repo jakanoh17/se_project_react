@@ -1,10 +1,10 @@
-.footer{
+.footer {
   font-weight: 500;
   display: flex;
   justify-content: space-between;
 }
 
-.footer__container{
+.footer-container {
   margin-top: auto;
 }
 

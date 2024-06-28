@@ -7,17 +7,15 @@ function Header(props) {
     day: "numeric",
   });
 
-  const currentLocation = props.city;
-
   return (
-    <div className="header">
+    <header className="header">
       <div
         className="header__left-side
         "
       >
         <img className="header__logo" src={headerLogo} alt="Header logo" />
         <p className="header__date-loc">
-          {currentDate}, {currentLocation}
+          {currentDate}, {props.city}
         </p>
       </div>
       <div className="header__right-side">
@@ -31,7 +29,7 @@ function Header(props) {
         <p className="header__name">Crayon</p>
         <img className="header__avatar" src={headerAvatar} alt="Avatar" />
       </div>
-    </div>
+    </header>
   );
 }
 

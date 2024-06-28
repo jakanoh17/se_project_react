@@ -19,8 +19,6 @@ function WeatherCard(props) {
   //     console.log(dayOrNight);
   //   }
   // }, [now]);
-
-  React.useEffect(() => {});
   return (
     <div
       className={`wthr-card wthr-card__card wthr-card__wthr-type_${weather}`}
