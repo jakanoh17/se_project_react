@@ -1,16 +1,20 @@
 import React from "react";
+import { CurrentTemperatureUnitContext } from "../contexts/CurrentTemperatureUnitContext";
 
-function WeatherCard(props) {
+function WeatherCard({ temp, weatherType }) {
+  const { currentTemperatureUnit } = React.useContext(
+    CurrentTemperatureUnitContext
+  );
   const [weather, setWeather] = React.useState("clear");
   // const [dayOrNight, setDayOrNight] = React.useState("");
   // const [now, setNow] = React.useState(new Date().getHours());
 
   React.useEffect(() => {
-    if (props.weatherType) {
-      const lCaseWeather = props.weatherType.toLowerCase();
+    if (weatherType) {
+      const lCaseWeather = weatherType.toLowerCase();
       setWeather(lCaseWeather);
     }
-  }, [props.weatherType]);
+  }, [weatherType]);
 
   // check if day or night
   // React.useEffect(() => {
@@ -19,11 +23,14 @@ function WeatherCard(props) {
   //     console.log(dayOrNight);
   //   }
   // }, [now]);
+
   return (
     <div
       className={`wthr-card wthr-card__card wthr-card__wthr-type_${weather}`}
     >
-      <h1 className="wthr-card__temp">{props.temp || "--"}°F</h1>
+      <h1 className="wthr-card__temp">
+        {temp + `\u00B0${currentTemperatureUnit}` || "--"}
+      </h1>
       <div
         className={`wthr-card__celest-bod wthr-card__celest-bod_wthr-type_${weather}`}
       ></div>

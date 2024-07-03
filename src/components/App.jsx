@@ -7,15 +7,20 @@ import ItemModal from "./ItemModal";
 import { defaultClothingItems } from "../utils/constants.js";
 import findPosition from "../utils/findPosition.js";
 import fetchWeatherData from "../utils/fetchWeatherData.js";
+import { CurrentTemperatureUnitContext } from "../contexts/CurrentTemperatureUnitContext.js";
 
+// GO THROUGH AND SEE WHICH COMPS NEED TO BE PURE OR NOT
 function App() {
   const [city, setCity] = React.useState("");
-  const [temp, setTemp] = React.useState("");
+  const [temp, setTemp] = React.useState({});
   const [genWeather, setGenWeather] = React.useState("");
 
   const [activeModal, setActiveModal] = React.useState("");
   const [clothing, setClothing] = React.useState(defaultClothingItems);
   const [currentItem, setCurrentItem] = React.useState({});
+
+  const [currentTemperatureUnit, setCurrentTemperatureUnit] =
+    React.useState("F");
 
   function openGarmentModal() {
     setActiveModal("garment-form");
@@ -25,6 +30,16 @@ function App() {
     setActiveModal("item-image");
     setCurrentItem(card);
   }
+
+  const closeModal = React.useCallback(() => {
+    setActiveModal("");
+  }, []);
+
+  const handleOutsideClkToCloseModal = React.useCallback((evt) => {
+    if (evt.target === evt.currentTarget) {
+      closeModal();
+    }
+  }, []);
 
   React.useEffect(() => {
     findPosition()
@@ -39,16 +54,6 @@ function App() {
       .catch((err) => {
         console.error(err);
       });
-  }, []);
-
-  const closeModal = React.useCallback(() => {
-    setActiveModal("");
-  }, []);
-
-  const handleOutsideClkToCloseModal = React.useCallback((evt) => {
-    if (evt.target === evt.currentTarget) {
-      closeModal();
-    }
   }, []);
 
   React.useEffect(() => {
@@ -69,93 +74,97 @@ function App() {
 
   return (
     <div className="page">
-      <Header city={city} addClothesHandler={openGarmentModal} />
-      <Main
-        temp={temp}
-        onImgClick={openImgModal}
-        weatherType={genWeather}
-        clothing={clothing}
-        setClothing={setClothing}
-      />
-      <Footer />
-      <ModalWithForm
-        isOpen={activeModal === "garment-form"}
-        name="add-garment"
-        title="New garment"
-        buttonText="Add garment"
-        onClose={closeModal}
-        onOutsideClick={handleOutsideClkToCloseModal}
+      <CurrentTemperatureUnitContext.Provider
+        value={{ currentTemperatureUnit, setCurrentTemperatureUnit }}
       >
-        <div className="form__entries">
-          <label className="form__label">
-            Name
-            <input
-              type="text"
-              className="form__input"
-              placeholder="Name"
-              required
-            />
-          </label>
-          <label className="form__label">
-            Image
-            <input
-              type="url"
-              className="form__input"
-              placeholder="Image URL"
-              required
-            />
-          </label>
-          <div className="form__radio-container">
-            <h4 className="form__sub-title">Select the weather types:</h4>
-            <label className="form__label form__label_type_radio">
+        <Header city={city} addClothesHandler={openGarmentModal} />
+        <Main
+          temp={temp[currentTemperatureUnit]}
+          onImgClick={openImgModal}
+          weatherType={genWeather}
+          clothing={clothing}
+          setClothing={setClothing}
+        />
+        <Footer />
+        <ModalWithForm
+          isOpen={activeModal === "garment-form"}
+          name="add-garment"
+          title="New garment"
+          buttonText="Add garment"
+          onClose={closeModal}
+          onOutsideClick={handleOutsideClkToCloseModal}
+        >
+          <div className="form__entries">
+            <label className="form__label">
+              Name
               <input
-                type="radio"
-                name="wthr-type"
-                value="hot"
-                id="hot"
-                className="form__input form__input_type_radio"
+                type="text"
+                className="form__input"
+                placeholder="Name"
+                required
               />
-              <span className="form__radio-span">Hot</span>
-              <div className="form__radio-opt">
-                <div className="form__chk-radio-opt"></div>
-              </div>
             </label>
-            <label className="form__label form__label_type_radio">
+            <label className="form__label">
+              Image
               <input
-                type="radio"
-                name="wthr-type"
-                value="warm"
-                id="warm"
-                className="form__input form__input_type_radio"
+                type="url"
+                className="form__input"
+                placeholder="Image URL"
+                required
               />
-              <span className="form__radio-span">Warm</span>{" "}
-              <div className="form__radio-opt">
-                <div className="form__chk-radio-opt"></div>
-              </div>
             </label>
-            <label className="form__label form__label_type_radio">
-              <input
-                type="radio"
-                name="wthr-type"
-                value="cold"
-                id="cold"
-                className="form__input form__input_type_radio"
-              />
-              <span className="form__radio-span">Cold</span>
-              <div className="form__radio-opt">
-                <div className="form__chk-radio-opt"></div>
-              </div>
-            </label>
+            <div className="form__radio-container">
+              <h4 className="form__sub-title">Select the weather types:</h4>
+              <label className="form__label form__label_type_radio">
+                <input
+                  type="radio"
+                  name="wthr-type"
+                  value="hot"
+                  id="hot"
+                  className="form__input form__input_type_radio"
+                />
+                <span className="form__radio-span">Hot</span>
+                <div className="form__radio-opt">
+                  <div className="form__chk-radio-opt"></div>
+                </div>
+              </label>
+              <label className="form__label form__label_type_radio">
+                <input
+                  type="radio"
+                  name="wthr-type"
+                  value="warm"
+                  id="warm"
+                  className="form__input form__input_type_radio"
+                />
+                <span className="form__radio-span">Warm</span>{" "}
+                <div className="form__radio-opt">
+                  <div className="form__chk-radio-opt"></div>
+                </div>
+              </label>
+              <label className="form__label form__label_type_radio">
+                <input
+                  type="radio"
+                  name="wthr-type"
+                  value="cold"
+                  id="cold"
+                  className="form__input form__input_type_radio"
+                />
+                <span className="form__radio-span">Cold</span>
+                <div className="form__radio-opt">
+                  <div className="form__chk-radio-opt"></div>
+                </div>
+              </label>
+            </div>
           </div>
-        </div>
-      </ModalWithForm>
-      <ItemModal
-        activeModal={activeModal}
-        onClose={closeModal}
-        onOutsideClick={handleOutsideClkToCloseModal}
-        // display={itemModalDisplay}
-        card={currentItem}
-      />
+        </ModalWithForm>
+        <ItemModal
+          activeModal={activeModal}
+          onClose={closeModal}
+          onOutsideClick={handleOutsideClkToCloseModal}
+          // display={itemModalDisplay}
+          card={currentItem}
+        />
+      </CurrentTemperatureUnitContext.Provider>
     </div>
   );
 }

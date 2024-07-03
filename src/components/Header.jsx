@@ -1,7 +1,8 @@
 import headerLogo from "../assets/logo.svg";
 import headerAvatar from "../assets/avatar.png";
+import ToggleSwitch from "./ToggleSwitch";
 
-function Header(props) {
+function Header({ city, addClothesHandler }) {
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
@@ -15,14 +16,15 @@ function Header(props) {
       >
         <img className="header__logo" src={headerLogo} alt="Header logo" />
         <p className="header__date-loc">
-          {currentDate}, {props.city}
+          {currentDate}, {city}
         </p>
       </div>
       <div className="header__right-side">
+        <ToggleSwitch />
         <button
           type="button"
           className="header__add-clothes-btn"
-          onClick={props.addClothesHandler}
+          onClick={addClothesHandler}
         >
           + Add clothes
         </button>

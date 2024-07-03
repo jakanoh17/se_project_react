@@ -1,34 +1,42 @@
 import WeatherCard from "./WeatherCard";
 import React from "react";
 import ItemCard from "./ItemCard";
+import { CurrentTemperatureUnitContext } from "../contexts/CurrentTemperatureUnitContext";
 
-function Main(props) {
+function Main({ temp, onImgClick, weatherType, clothing, setClothing }) {
+  const { currentTemperatureUnit } = React.useContext(
+    CurrentTemperatureUnitContext
+  );
+
   React.useEffect(() => {
-    if (props.temp) {
+    if (temp) {
       const weather = determineWeatherType();
-      const filteredClothes = props.clothing.filter((item) => {
+      const filteredClothes = clothing.filter((item) => {
         return weather == item.weather;
       });
-      props.setClothing(filteredClothes);
+      setClothing(filteredClothes);
     }
-  }, [props.temp]);
+  }, [temp]);
 
   function determineWeatherType() {
-    return props.temp > 80 ? "hot" : props.temp > 60 ? "warm" : "cold";
+    if (currentTemperatureUnit === "F") {
+      return temp > 80 ? "hot" : temp > 60 ? "warm" : "cold";
+    } else return temp > 27 ? "hot" : temp > 16 ? "warm" : "cold";
   }
 
   return (
     <main>
-      <WeatherCard temp={props.temp} weatherType={props.weatherType} />
+      <WeatherCard temp={temp} weatherType={weatherType} />
       <div className="gallery gallery__container">
         <h2 className="gallery__header">
-          Today is {props.temp || "--"}° F / You may want to wear:
+          Today is {temp + `\u00B0${currentTemperatureUnit}` || "--"} / You may
+          want to wear:
         </h2>
         <ul className="gallery__cards">
-          {props.clothing.map((item) => {
+          {clothing.map((item) => {
             return (
               <li key={item._id} className="gallery__card">
-                <ItemCard item={item} onImgClick={props.onImgClick} />
+                <ItemCard item={item} onImgClick={onImgClick} />
               </li>
             );
           })}

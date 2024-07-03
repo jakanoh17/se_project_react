@@ -1,5 +1,9 @@
 import WeatherApi from "./weatherApi.js";
-import { weatherApiKey, convertTempFromKToF } from "./constants.js";
+import {
+  weatherApiKey,
+  convertTempFromKToF,
+  convertTempFromKToC,
+} from "./constants.js";
 
 function fetchWeatherData({ latitude, longitude }) {
   const weatherApi = new WeatherApi(latitude, longitude);
@@ -8,7 +12,10 @@ function fetchWeatherData({ latitude, longitude }) {
     .then((data) => {
       return {
         city: data.name,
-        temp: Math.round(convertTempFromKToF(data.main.temp)),
+        temp: {
+          F: Math.round(convertTempFromKToF(data.main.temp)),
+          C: Math.round(convertTempFromKToC(data.main.temp)),
+        },
         genWeather: data.weather[0].main,
       };
     })

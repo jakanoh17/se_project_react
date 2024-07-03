@@ -38,6 +38,9 @@ export const defaultClothingItems = [
 ];
 
 export const weatherApiKey = "95b5ff3b2cba1d235f3db91c36b13015";
-export function convertTempFromKToF(K) {
-  return ((K - 273.15) * 9) / 5 + 32;
+export function convertTempFromKToF(k) {
+  return ((k - 273.15) * 9) / 5 + 32;
+}
+export function convertTempFromKToC(k) {
+  return k - 273.15;
 }
