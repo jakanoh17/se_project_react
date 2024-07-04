@@ -34,12 +34,26 @@
   display: flex;
 }
 
+.form__error-message {
+  visibility: hidden;
+  color: #f00;
+}
+
+.form__error-message_visible {
+  visibility: visible;
+}
+
 .form__input:not([type="radio"]):not([type="checkbox"]) {
   display: block;
   margin-top: 8px;
   width: 100%;
   border: none;
   border-bottom: solid 1px #000;
+}
+
+.form__input_invalid:not([type="radio"]):not([type="checkbox"]) {
+  color: red;
+  border-bottom: solid 1px #f00;
 }
 
 .form__input_type_radio {

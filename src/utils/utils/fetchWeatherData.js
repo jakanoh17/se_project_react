@@ -1,9 +1,9 @@
-import WeatherApi from "./weatherApi.js";
+import WeatherApi from "./WeatherApi.js";
 import {
   weatherApiKey,
   convertTempFromKToF,
   convertTempFromKToC,
-} from "./constants.js";
+} from "../constants.js";
 
 function fetchWeatherData({ latitude, longitude }) {
   const weatherApi = new WeatherApi(latitude, longitude);

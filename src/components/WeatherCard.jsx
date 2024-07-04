@@ -1,6 +1,6 @@
 import React from "react";
 import { CurrentTemperatureUnitContext } from "../contexts/CurrentTemperatureUnitContext";
-
+import { styledWeatherTypes } from "../utils/constants";
 function WeatherCard({ temp, weatherType }) {
   const { currentTemperatureUnit } = React.useContext(
     CurrentTemperatureUnitContext
@@ -11,8 +11,10 @@ function WeatherCard({ temp, weatherType }) {
 
   React.useEffect(() => {
     if (weatherType) {
-      const lCaseWeather = weatherType.toLowerCase();
-      setWeather(lCaseWeather);
+      if (styledWeatherTypes.includes(weatherType)) {
+        const lCaseWeather = weatherType.toLowerCase();
+        setWeather(lCaseWeather);
+      } else setWeather("atmosphere");
     }
   }, [weatherType]);
 

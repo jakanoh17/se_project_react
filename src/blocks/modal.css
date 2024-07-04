@@ -17,8 +17,8 @@
 
 .modal__item {
   position: relative;
-  width: 498px;
-  height: 610px;
+  max-width: 498px;
+  max-height: 610px;
   background-color: #fff;
   border-radius: 16px;
   overflow: hidden;
@@ -59,10 +59,30 @@
   line-height: 1.2;
   display: grid;
   gap: 12px;
-  padding: 32px;
+  padding: 20px 32px 32px;
+  grid-template-columns: 1fr min-content;
+  grid-template-rows: auto auto;
+  grid-template-areas: "name delete-btn" "weather delete-btn";
 }
 
-.modal__item-name,
+.modal__item-name {
+  margin: 0;
+  grid-area: name;
+}
+
 .modal__weather {
   margin: 0;
+  grid-area: weather;
+}
+
+.modal__delete-btn {
+  grid-area: delete-btn;
+  color: #ff4d00;
+  font-size: 20px;
+  line-height: 1.2;
+  text-wrap: nowrap;
+  height: fit-content;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 }

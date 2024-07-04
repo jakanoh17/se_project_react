@@ -1,10 +1,8 @@
-function ItemModal({ activeModal, onClose, onOutsideClick, card }) {
+function ItemModal({ isOpen, onClose, onOutsideClick, card }) {
   return (
     <div
       onClick={onOutsideClick}
-      className={`modal modal_type_item ${
-        activeModal == "item-image" ? "modal_opened" : ""
-      }`}
+      className={`modal modal_type_item ${isOpen ? "modal_opened" : ""}`}
     >
       <div className="modal__item">
         <button
@@ -16,6 +14,9 @@ function ItemModal({ activeModal, onClose, onOutsideClick, card }) {
         <div className="modal__caption">
           <p className="modal__item-name">{card.name}</p>
           <p className="modal__weather">{`Weather: ${card.weather}`}</p>
+          <button type="button" className="modal__delete-btn">
+            Delete item
+          </button>
         </div>
       </div>
     </div>

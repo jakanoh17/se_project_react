@@ -30,6 +30,12 @@
   font-weight: 700;
 }
 
+.header__link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
 .header__date-loc,
 .header__name {
   margin: 0;

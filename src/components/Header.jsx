@@ -1,6 +1,7 @@
 import headerLogo from "../assets/logo.svg";
 import headerAvatar from "../assets/avatar.png";
 import ToggleSwitch from "./ToggleSwitch";
+import { Link } from "react-router-dom";
 
 function Header({ city, addClothesHandler }) {
   const currentDate = new Date().toLocaleString("default", {
@@ -14,7 +15,9 @@ function Header({ city, addClothesHandler }) {
         className="header__left-side
         "
       >
-        <img className="header__logo" src={headerLogo} alt="Header logo" />
+        <Link to="/">
+          <img className="header__logo" src={headerLogo} alt="Header logo" />
+        </Link>
         <p className="header__date-loc">
           {currentDate}, {city}
         </p>
@@ -28,8 +31,12 @@ function Header({ city, addClothesHandler }) {
         >
           + Add clothes
         </button>
-        <p className="header__name">Crayon</p>
-        <img className="header__avatar" src={headerAvatar} alt="Avatar" />
+        <Link to="/profile" className="header__link">
+          <p className="header__name">Crayon</p>{" "}
+          {/* </Link>
+        <Link to="/profile" className="header__link"> */}
+          <img className="header__avatar" src={headerAvatar} alt="Avatar" />
+        </Link>
       </div>
     </header>
   );
