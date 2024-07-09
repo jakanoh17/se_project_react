@@ -25,8 +25,24 @@ function ToggleSwitch() {
       />
       <label className="toggle-switch__label" htmlFor="temp-switch-input">
         <span className="toggle-switch__span" />
-        <p className="toggle-switch__temp-unit">F</p>
-        <p className="toggle-switch__temp-unit">C</p>
+        <p
+          className={`toggle-switch__temp-unit ${
+            currentTemperatureUnit == "F"
+              ? "toggle-switch__temp-unit_active"
+              : ""
+          }`}
+        >
+          F
+        </p>
+        <p
+          className={`toggle-switch__temp-unit ${
+            currentTemperatureUnit == "C"
+              ? "toggle-switch__temp-unit_active"
+              : ""
+          }`}
+        >
+          C
+        </p>
       </label>
     </div>
   );
