@@ -2,30 +2,44 @@ import React from "react";
 import ModalWithForm from "./ModalWithForm";
 
 function AddItemModal({ isOpen, onCloseModal, onOutsideClick, onAddItem }) {
-  const [name, setName] = React.useState("");
-  const [link, setImgLink] = React.useState("");
-  const [weather, setWeather] = React.useState("");
+  const [inputValues, setInputValues] = React.useState({});
+  const [errMsgs, setErrMsgs] = React.useState({});
 
-  function onNameChange(evt) {
-    setName(evt.target.value);
-  }
+  const [submitBtnIsEnabled, setSubmitBtnIsEnabled] = React.useState(false);
 
-  function onImgLinkChange(evt) {
-    setImgLink(evt.target.value);
-  }
+  function onInputChange(evt) {
+    const newInputObj = { ...inputValues };
+    newInputObj[evt.target.name] = evt.target.value;
+    setInputValues(newInputObj);
 
-  function onWeatherChange(evt) {
-    setWeather(evt.target.value);
+    let newErrMsgsObj = { ...errMsgs };
+    if (!evt.target.validity.valid) {
+      newErrMsgsObj[evt.target.name] = evt.target.validationMessage;
+      setErrMsgs(newErrMsgsObj);
+    } else {
+      newErrMsgsObj[evt.target.name] = "";
+      setErrMsgs(newErrMsgsObj);
+    }
   }
 
   function handleSubmit(evt) {
-    onAddItem({ name, weather, link });
+    onAddItem(inputValues);
     evt.preventDefault();
   }
 
-  // React.useEffect(() => {
-  //   if (isOpen);
-  // }, [isOpen]);
+  React.useEffect(() => {
+    const errMsgsObjValues = Object.values(errMsgs);
+    const errors = errMsgsObjValues.some((value) => value != "");
+
+    const inputObjValues = Object.values(inputValues);
+    const emptyInputs = inputObjValues.some((value) => value == "");
+
+    if (errors || emptyInputs || inputObjValues.length < 3) {
+      setSubmitBtnIsEnabled(false);
+    } else {
+      setSubmitBtnIsEnabled(true);
+    }
+  }, [errMsgs, inputValues]);
 
   return (
     <ModalWithForm
@@ -36,6 +50,7 @@ function AddItemModal({ isOpen, onCloseModal, onOutsideClick, onAddItem }) {
       onClose={onCloseModal}
       onOutsideClick={onOutsideClick}
       onSubmit={handleSubmit}
+      submitBtnIsEnabled={submitBtnIsEnabled}
     >
       <div className="form__entries">
         <label className="form__label">
@@ -44,37 +59,38 @@ function AddItemModal({ isOpen, onCloseModal, onOutsideClick, onAddItem }) {
             type="text"
             className="form__input"
             id="new-garment-name"
-            value={name}
-            onChange={onNameChange}
+            name="name"
+            value={inputValues.name || ""}
+            onChange={onInputChange}
             placeholder="Name"
             min={2}
             max={40}
             required
           />
-          <span className="form__error-message form__error-message_visible new-garment-name-err-msg"></span>
+          <span className="form__error-message">{errMsgs.name}</span>
         </label>
         <label className="form__label">
           Image
           <input
             type="url"
             id="new-garment-url"
-            name="Img_url"
-            value={link}
-            onChange={onImgLinkChange}
+            name="imageUrl"
+            value={inputValues.imageUrl || ""}
+            onChange={onInputChange}
             className="form__input"
             placeholder="Image URL"
             required
           />
-          <span className="form__error-message form__error-message_visible new-garment-url-err-msg"></span>
+          <span className="form__error-message">{errMsgs.imageUrl}</span>
         </label>
         <div className="form__radio-container">
           <h4 className="form__sub-title">Select the weather types:</h4>
           <label className="form__label form__label_type_radio">
             <input
               type="radio"
-              name="wthr-type"
+              name="weather"
               value="hot"
-              onChange={onWeatherChange}
+              onChange={onInputChange}
               id="hot"
               className="form__input form__input_type_radio"
             />
@@ -86,9 +102,9 @@ function AddItemModal({ isOpen, onCloseModal, onOutsideClick, onAddItem }) {
           <label className="form__label form__label_type_radio">
             <input
               type="radio"
-              name="wthr-type"
+              name="weather"
               value="warm"
-              onChange={onWeatherChange}
+              onChange={onInputChange}
               id="warm"
               className="form__input form__input_type_radio"
             />
@@ -100,9 +116,9 @@ function AddItemModal({ isOpen, onCloseModal, onOutsideClick, onAddItem }) {
           <label className="form__label form__label_type_radio">
             <input
               type="radio"
-              name="wthr-type"
+              name="weather"
               value="cold"
-              onChange={onWeatherChange}
+              onChange={onInputChange}
               id="cold"
               className="form__input form__input_type_radio"
             />

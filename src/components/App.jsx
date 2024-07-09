@@ -5,18 +5,14 @@ import Footer from "./Footer";
 import ItemModal from "./ItemModal";
 import Profile from "./Profile.jsx";
 import AddItemModal from "./AddItemModal.jsx";
-import ModalWithForm from "./ModalWithForm.jsx";
+import ConfirmationModal from "./ConfirmationModal.jsx";
 
-import {
-  defaultClothingItems,
-  // validationConfig,
-  // formValidators,
-} from "../utils/constants.js";
+import { defaultClothingItems } from "../utils/constants.js";
 import findPosition from "../utils/utils/findPosition.js";
 import fetchWeatherData from "../utils/utils/fetchWeatherData.js";
 import { CurrentTemperatureUnitContext } from "../contexts/CurrentTemperatureUnitContext.js";
 import { Routes, Route } from "react-router-dom";
-// import FormValidator from "../utils/utils/FormValidator.js";
+import Api from "../utils/utils/Api.js";
 
 // GO THROUGH AND SEE WHICH COMPS NEED TO BE PURE OR NOT
 function App() {
@@ -24,23 +20,14 @@ function App() {
   const [temp, setTemp] = React.useState({});
   const [genWeather, setGenWeather] = React.useState("");
 
-  const [activeModal, setActiveModal] = React.useState(
-    "delete-confirmation-form"
-  );
+  const [activeModal, setActiveModal] = React.useState("");
   const [clothing, setClothing] = React.useState(defaultClothingItems);
   const [currentItem, setCurrentItem] = React.useState({});
 
   const [currentTemperatureUnit, setCurrentTemperatureUnit] =
     React.useState("F");
 
-  // (function enableValidators() {
-  //   const formList = document.querySelectorAll(validationConfig.formSelector);
-  //   formList.forEach((form) => {
-  //     const validator = new FormValidator(validationConfig, form);
-  //     formValidators[form.id] = validator;
-  //     validator.enableValidation();
-  //   });
-  // })();
+  const api = new Api("http://localhost:3001");
 
   function openGarmentModal() {
     setActiveModal("garment-form");
@@ -51,16 +38,37 @@ function App() {
     setCurrentItem(card);
   }
 
-  function handleAddItemSubmit(newItem) {
-    setClothing([newItem, ...clothing]);
-    console.log(clothing);
+  function openConfirmationModal() {
+    setActiveModal("delete-confirmation-form");
   }
 
-  function deleteClothes(item) {
-    const foundItem = clothing.filter((element) => {
-      return item._id == element._id;
-    });
-    console.log(foundItem);
+  function addNewCard(newItem) {
+    api
+      .postNewCard(newItem)
+      .then((data) => {
+        setClothing([data, ...clothing]);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    closeModal();
+  }
+
+  function handleCardDelete(evt) {
+    api
+      .deleteCard(currentItem._id)
+      .then(() => {
+        setClothing(
+          clothing.filter((element) => {
+            return currentItem._id != element._id;
+          })
+        );
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    closeModal();
+    evt.preventDefault();
   }
 
   const closeModal = React.useCallback(() => {
@@ -73,6 +81,19 @@ function App() {
     }
   }, []);
 
+  //GET INITIAL CARDS
+  React.useEffect(() => {
+    api
+      .getCards()
+      .then((data) => {
+        setClothing(data.reverse());
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
+  //GET WEATHER DATA
   React.useEffect(() => {
     findPosition()
       .then((pos) => {
@@ -88,6 +109,7 @@ function App() {
       });
   }, []);
 
+  //CLOSE MODAL
   React.useEffect(() => {
     function handleEscToCloseModal(evt) {
       if (evt.key === "Escape") {
@@ -119,7 +141,6 @@ function App() {
                 onImgClick={openImgModal}
                 weatherType={genWeather}
                 clothing={clothing}
-                setClothing={setClothing}
               />
             }
           />
@@ -130,25 +151,28 @@ function App() {
           isOpen={activeModal === "garment-form"}
           onCloseModal={closeModal}
           onOutsideClick={handleOutsideClkToCloseModal}
-          onAddItem={handleAddItemSubmit}
+          onAddItem={addNewCard}
         />
         <ItemModal
           isOpen={activeModal === "item-image"}
           onClose={closeModal}
           onOutsideClick={handleOutsideClkToCloseModal}
-          // display={itemModalDisplay}
           card={currentItem}
+          openConfirmPageHandler={openConfirmationModal}
         />
-        <ModalWithForm
+        <ConfirmationModal
           isOpen={activeModal === "delete-confirmation-form"}
-          name="delete-confirmation"
-          title="Are you sure you want to delete this item? This action is
-            irreversible."
-          submitButtonText="Yes, delete item"
+          name="del-confirmation"
+          deleteButtonText={"Yes, delete item"}
           onClose={closeModal}
           onOutsideClick={handleOutsideClkToCloseModal}
-          onSubmit={deleteClothes}
-        ></ModalWithForm>
+          onSubmit={handleCardDelete}
+        >
+          <p className="form__deletion-text">
+            Are you sure you want to delete this item? This action is
+            irreversible.
+          </p>
+        </ConfirmationModal>
       </CurrentTemperatureUnitContext.Provider>
     </div>
   );

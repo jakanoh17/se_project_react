@@ -52,13 +52,3 @@ export const styledWeatherTypes = [
   "snow",
   "atmosphere",
 ];
-export const validationConfig = {
-  formSelector: ".modal__form",
-  inputSelector: ".form__input",
-  submitButtonSelector: ".form__submit-btn",
-  inactiveButtonClass: "form__submit-btn_disabled",
-  inputErrorClass: "form__input_invalid",
-  errorClass: "form__error-message_visible",
-};
-
-export const formValidators = {};

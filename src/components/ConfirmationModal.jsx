@@ -1,15 +1,11 @@
-import React from "react";
-
-function ModalWithForm({
+function ConfirmationModal({
   children,
   isOpen,
   name,
-  title,
-  submitButtonText,
+  deleteButtonText,
   onClose,
   onOutsideClick,
   onSubmit,
-  submitBtnIsEnabled,
 }) {
   return (
     <div
@@ -18,7 +14,7 @@ function ModalWithForm({
     >
       <form
         action=""
-        className="form modal__form"
+        className="form modal__form modal__form_type_confirmation"
         name={name}
         onSubmit={onSubmit}
       >
@@ -27,20 +23,19 @@ function ModalWithForm({
           className="modal__close-btn modal__close-btn_container_form"
           onClick={onClose}
         />
-        <h3 className="form__title">{title}</h3>
         {children}
         <button
           type="submit"
-          className={`form__submit-btn ${
-            submitBtnIsEnabled ? "" : "form__submit-btn_disabled"
-          }`}
-          disabled={!submitBtnIsEnabled}
+          className="form__submit-btn form__submit-btn_type_del-item"
         >
-          {submitButtonText}
+          {deleteButtonText}
+        </button>
+        <button type="button" className="form__cancel-btn" onClick={onClose}>
+          Cancel
         </button>
       </form>
     </div>
   );
 }
 
-export default ModalWithForm;
+export default ConfirmationModal;

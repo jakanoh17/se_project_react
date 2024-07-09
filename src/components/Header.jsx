@@ -33,8 +33,6 @@ function Header({ city, addClothesHandler }) {
         </button>
         <Link to="/profile" className="header__link">
           <p className="header__name">Crayon</p>{" "}
-          {/* </Link>
-        <Link to="/profile" className="header__link"> */}
           <img className="header__avatar" src={headerAvatar} alt="Avatar" />
         </Link>
       </div>

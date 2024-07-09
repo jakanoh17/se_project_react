@@ -86,3 +86,9 @@
   background-color: transparent;
   cursor: pointer;
 }
+
+.modal__form_type_confirmation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

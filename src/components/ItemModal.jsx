@@ -1,4 +1,10 @@
-function ItemModal({ isOpen, onClose, onOutsideClick, card }) {
+function ItemModal({
+  isOpen,
+  onClose,
+  onOutsideClick,
+  card,
+  openConfirmPageHandler,
+}) {
   return (
     <div
       onClick={onOutsideClick}
@@ -10,11 +16,15 @@ function ItemModal({ isOpen, onClose, onOutsideClick, card }) {
           type="button"
           onClick={onClose}
         ></button>
-        <img src={card.link} alt={card.name} className="modal__image" />
+        <img src={card.imageUrl} alt={card.name} className="modal__image" />
         <div className="modal__caption">
           <p className="modal__item-name">{card.name}</p>
           <p className="modal__weather">{`Weather: ${card.weather}`}</p>
-          <button type="button" className="modal__delete-btn">
+          <button
+            type="button"
+            className="modal__delete-btn"
+            onClick={openConfirmPageHandler}
+          >
             Delete item
           </button>
         </div>

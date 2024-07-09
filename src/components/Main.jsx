@@ -3,26 +3,29 @@ import React from "react";
 import ItemCard from "./ItemCard";
 import { CurrentTemperatureUnitContext } from "../contexts/CurrentTemperatureUnitContext";
 
-function Main({ temp, onImgClick, weatherType, clothing, setClothing }) {
+function Main({ temp, onImgClick, weatherType, clothing }) {
+  const [filteredClothes, setFilteredClothes] = React.useState([]);
+
   const { currentTemperatureUnit } = React.useContext(
     CurrentTemperatureUnitContext
   );
-
-  React.useEffect(() => {
-    if (temp) {
-      const weather = determineWeatherType();
-      const filteredClothes = clothing.filter((item) => {
-        return weather == item.weather;
-      });
-      setClothing(filteredClothes);
-    }
-  }, [temp]);
 
   function determineWeatherType() {
     if (currentTemperatureUnit === "F") {
       return temp > 80 ? "hot" : temp > 60 ? "warm" : "cold";
     } else return temp > 27 ? "hot" : temp > 16 ? "warm" : "cold";
   }
+
+  React.useEffect(() => {
+    if (temp) {
+      const weather = determineWeatherType();
+      setFilteredClothes(
+        clothing.filter((item) => {
+          return weather == item.weather;
+        })
+      );
+    }
+  }, [temp, clothing]);
 
   return (
     <main>
@@ -33,7 +36,7 @@ function Main({ temp, onImgClick, weatherType, clothing, setClothing }) {
           want to wear:
         </h2>
         <ul className="gallery__cards">
-          {clothing.map((item) => {
+          {filteredClothes.map((item) => {
             return (
               <li key={item._id} className="gallery__card">
                 <ItemCard item={item} onImgClick={onImgClick} />
