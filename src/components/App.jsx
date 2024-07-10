@@ -14,7 +14,6 @@ import { CurrentTemperatureUnitContext } from "../contexts/CurrentTemperatureUni
 import { Routes, Route } from "react-router-dom";
 import Api from "../utils/utils/Api.js";
 
-// GO THROUGH AND SEE WHICH COMPS NEED TO BE PURE OR NOT
 function App() {
   const [city, setCity] = React.useState("");
   const [temp, setTemp] = React.useState({});

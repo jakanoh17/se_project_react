@@ -1,9 +1,10 @@
+import React from "react";
 import headerLogo from "../assets/logo.svg";
 import headerAvatar from "../assets/avatar.png";
 import ToggleSwitch from "./ToggleSwitch";
 import { Link } from "react-router-dom";
 
-function Header({ city, addClothesHandler }) {
+const Header = React.memo(({ city, addClothesHandler }) => {
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
@@ -11,10 +12,7 @@ function Header({ city, addClothesHandler }) {
 
   return (
     <header className="header">
-      <div
-        className="header__left-side
-        "
-      >
+      <div className="header__left-side">
         <Link to="/">
           <img className="header__logo" src={headerLogo} alt="Header logo" />
         </Link>
@@ -38,6 +36,6 @@ function Header({ city, addClothesHandler }) {
       </div>
     </header>
   );
-}
+});
 
 export default Header;

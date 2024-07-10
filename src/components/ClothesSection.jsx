@@ -1,7 +1,7 @@
 import React from "react";
 
-function ClothesSection() {
+const ClothesSection = React.memo(() => {
   return <div className="clothes-section"></div>;
-}
+});
 
 export default ClothesSection;

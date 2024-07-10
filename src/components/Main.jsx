@@ -3,7 +3,7 @@ import React from "react";
 import ItemCard from "./ItemCard";
 import { CurrentTemperatureUnitContext } from "../contexts/CurrentTemperatureUnitContext";
 
-function Main({ temp, onImgClick, weatherType, clothing }) {
+const Main = React.memo(({ temp, onImgClick, weatherType, clothing }) => {
   const [filteredClothes, setFilteredClothes] = React.useState([]);
 
   const { currentTemperatureUnit } = React.useContext(
@@ -47,6 +47,6 @@ function Main({ temp, onImgClick, weatherType, clothing }) {
       </div>
     </main>
   );
-}
+});
 
 export default Main;
