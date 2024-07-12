@@ -15,6 +15,10 @@
   justify-content: center;
 }
 
+.gallery__cards_location_profile {
+  margin-top: 16px;
+}
+
 .gallery__card {
   list-style: none;
 }

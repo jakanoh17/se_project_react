@@ -10,9 +10,14 @@ import ConfirmationModal from "./ConfirmationModal.jsx";
 import { defaultClothingItems } from "../utils/constants.js";
 import findPosition from "../utils/utils/findPosition.js";
 import fetchWeatherData from "../utils/utils/fetchWeatherData.js";
-import { CurrentTemperatureUnitContext } from "../contexts/CurrentTemperatureUnitContext.js";
 import { Routes, Route } from "react-router-dom";
 import Api from "../utils/utils/Api.js";
+
+import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext.js";
+import {
+  ProfileInfoContext,
+  profileInfo,
+} from "../contexts/ProfileInfoContext.js";
 
 function App() {
   const [city, setCity] = React.useState("");
@@ -20,7 +25,7 @@ function App() {
   const [genWeather, setGenWeather] = React.useState("");
 
   const [activeModal, setActiveModal] = React.useState("");
-  const [clothing, setClothing] = React.useState(defaultClothingItems);
+  const [clothing, setClothing] = React.useState([]);
   const [currentItem, setCurrentItem] = React.useState({});
 
   const [currentTemperatureUnit, setCurrentTemperatureUnit] =
@@ -130,48 +135,55 @@ function App() {
       <CurrentTemperatureUnitContext.Provider
         value={{ currentTemperatureUnit, setCurrentTemperatureUnit }}
       >
-        <Header city={city} addClothesHandler={openGarmentModal} />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Main
-                temp={temp[currentTemperatureUnit]}
-                onImgClick={openImgModal}
-                weatherType={genWeather}
-                clothing={clothing}
-              />
-            }
+        <ProfileInfoContext.Provider value={profileInfo}>
+          <Header city={city} addClothesHandler={openGarmentModal} />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Main
+                  temp={temp[currentTemperatureUnit]}
+                  onImgClick={openImgModal}
+                  weatherType={genWeather}
+                  clothing={clothing}
+                />
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <Profile clothing={clothing} onImgClick={openImgModal} />
+              }
+            />
+          </Routes>
+          <Footer />
+          <AddItemModal
+            isOpen={activeModal === "garment-form"}
+            onCloseModal={closeModal}
+            onOutsideClick={handleOutsideClkToCloseModal}
+            onAddItem={addNewCard}
           />
-          <Route path="/profile" element={<Profile />} />
-        </Routes>
-        <Footer />
-        <AddItemModal
-          isOpen={activeModal === "garment-form"}
-          onCloseModal={closeModal}
-          onOutsideClick={handleOutsideClkToCloseModal}
-          onAddItem={addNewCard}
-        />
-        <ItemModal
-          isOpen={activeModal === "item-image"}
-          onClose={closeModal}
-          onOutsideClick={handleOutsideClkToCloseModal}
-          card={currentItem}
-          openConfirmPageHandler={openConfirmationModal}
-        />
-        <ConfirmationModal
-          isOpen={activeModal === "delete-confirmation-form"}
-          name="del-confirmation"
-          deleteButtonText={"Yes, delete item"}
-          onClose={closeModal}
-          onOutsideClick={handleOutsideClkToCloseModal}
-          onSubmit={handleCardDelete}
-        >
-          <p className="form__deletion-text">
-            Are you sure you want to delete this item? This action is
-            irreversible.
-          </p>
-        </ConfirmationModal>
+          <ItemModal
+            isOpen={activeModal === "item-image"}
+            onClose={closeModal}
+            onOutsideClick={handleOutsideClkToCloseModal}
+            card={currentItem}
+            openConfirmPageHandler={openConfirmationModal}
+          />
+          <ConfirmationModal
+            isOpen={activeModal === "delete-confirmation-form"}
+            name="del-confirmation"
+            deleteButtonText={"Yes, delete item"}
+            onClose={closeModal}
+            onOutsideClick={handleOutsideClkToCloseModal}
+            onSubmit={handleCardDelete}
+          >
+            <p className="form__deletion-text">
+              Are you sure you want to delete this item? This action is
+              irreversible.
+            </p>
+          </ConfirmationModal>
+        </ProfileInfoContext.Provider>
       </CurrentTemperatureUnitContext.Provider>
     </div>
   );

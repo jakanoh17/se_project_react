@@ -1,0 +1,16 @@
+.clothes-section {
+  max-width: 1015px;
+  padding-top: 16px;
+}
+
+.clothes-section__title {
+  display: inline;
+  margin-right: 20px;
+}
+
+.clothes-section__button {
+  border: none;
+  color: #0009;
+  background-color: transparent;
+  cursor: pointer;
+}

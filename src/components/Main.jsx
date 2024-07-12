@@ -1,7 +1,7 @@
 import WeatherCard from "./WeatherCard";
 import React from "react";
 import ItemCard from "./ItemCard";
-import { CurrentTemperatureUnitContext } from "../contexts/CurrentTemperatureUnitContext";
+import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
 
 const Main = React.memo(({ temp, onImgClick, weatherType, clothing }) => {
   const [filteredClothes, setFilteredClothes] = React.useState([]);

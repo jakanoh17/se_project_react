@@ -1,17 +1,18 @@
 import React from "react";
 import headerLogo from "../assets/logo.svg";
-import headerAvatar from "../assets/avatar.png";
 import ToggleSwitch from "./ToggleSwitch";
 import { Link } from "react-router-dom";
+import { ProfileInfoContext } from "../contexts/ProfileInfoContext";
 
 const Header = React.memo(({ city, addClothesHandler }) => {
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
   });
+  const { avatar, userName } = React.useContext(ProfileInfoContext);
 
   return (
-    <header className="header">
+    <header className="header header__container">
       <div className="header__left-side">
         <Link to="/">
           <img className="header__logo" src={headerLogo} alt="Header logo" />
@@ -30,8 +31,8 @@ const Header = React.memo(({ city, addClothesHandler }) => {
           + Add clothes
         </button>
         <Link to="/profile" className="header__link">
-          <p className="header__name">Crayon</p>{" "}
-          <img className="header__avatar" src={headerAvatar} alt="Avatar" />
+          <p className="header__name">{userName}</p>{" "}
+          <img className="header__avatar" src={avatar} alt="Avatar" />
         </Link>
       </div>
     </header>
