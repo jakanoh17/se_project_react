@@ -1,4 +1,6 @@
-function ItemCard({ item, onImgClick }) {
+import React from "react";
+
+const ItemCard = React.memo(({ item, onImgClick }) => {
   function handleImgClick() {
     onImgClick(item);
   }
@@ -14,6 +16,6 @@ function ItemCard({ item, onImgClick }) {
       <h3 className="gallery__card-title">{item.name}</h3>
     </div>
   );
-}
+});
 
 export default ItemCard;

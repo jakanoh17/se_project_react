@@ -2,7 +2,7 @@ import React from "react";
 import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
 import { styledWeatherTypes } from "../utils/constants";
 
-function WeatherCard({ temp, weatherType }) {
+const WeatherCard = React.memo(({ temp, weatherType }) => {
   const { currentTemperatureUnit } = React.useContext(
     CurrentTemperatureUnitContext
   );
@@ -44,6 +44,6 @@ function WeatherCard({ temp, weatherType }) {
       />
     </div>
   );
-}
+});
 
 export default WeatherCard;

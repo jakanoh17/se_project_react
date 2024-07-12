@@ -1,7 +1,7 @@
 import React from "react";
 import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
 
-function ToggleSwitch() {
+const ToggleSwitch = React.memo(() => {
   const { currentTemperatureUnit, setCurrentTemperatureUnit } =
     React.useContext(CurrentTemperatureUnitContext);
   const [checked, setChecked] = React.useState(false);
@@ -45,6 +45,6 @@ function ToggleSwitch() {
       </label>
     </div>
   );
-}
+});
 
 export default ToggleSwitch;
