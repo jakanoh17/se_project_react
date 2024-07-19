@@ -8,8 +8,23 @@
   padding: 28px 28px 36px;
 }
 
+.form_type_del-confirmation {
+  display: flex;
+  flex-direction: column;
+  padding: 60px;
+  justify-content: center;
+  align-items: center;
+}
+
 .form__title {
   margin: 0 0 24px;
+}
+
+.form__title_type_deletion-form {
+  text-align: center;
+  font-size: 20px;
+  margin: 0;
+  max-width: 367px;
 }
 
 .form__entries {
@@ -95,7 +110,7 @@
   color: #fff;
   border-radius: 4px;
   border: none;
-  margin-top: 32px;
+  margin: 40px 0 0;
   display: block;
   cursor: pointer;
 }
@@ -104,7 +119,11 @@
   background-color: #0009;
 }
 
-.form__submit-btn_type_del-item {
+.form__submit-btn_disabled {
+  background-color: #0000004d;
+}
+
+.form__submit-btn_type_deletion-form {
   background: none;
   color: #ff4d00;
   font-size: 20px;
@@ -112,25 +131,16 @@
   margin-top: 40px;
 }
 
-.form__submit-btn_type_del-item:hover {
+.form__submit-btn_type_deletion-form:hover {
   background: none;
 }
 
-.form__submit-btn_disabled {
-  background-color: #0000004d;
-}
-
 .form__cancel-btn {
+  order: 2;
   background: none;
   border: none;
   font-size: 20px;
   margin: 24px 0;
   cursor: pointer;
-}
-
-.form__deletion-text {
-  max-width: 367px;
-  text-align: center;
-  font-size: 20px;
-  margin: 32px 0 0;
+  margin: 24px 0 0;
 }

@@ -7,7 +7,6 @@ import Profile from "./Profile.jsx";
 import AddItemModal from "./AddItemModal.jsx";
 import ConfirmationModal from "./ConfirmationModal.jsx";
 
-import { defaultClothingItems } from "../utils/constants.js";
 import findPosition from "../utils/utils/findPosition.js";
 import fetchWeatherData from "../utils/utils/fetchWeatherData.js";
 import { Routes, Route } from "react-router-dom";
@@ -18,6 +17,8 @@ import {
   ProfileInfoContext,
   profileInfo,
 } from "../contexts/ProfileInfoContext.js";
+
+const api = new Api("http://localhost:3001");
 
 function App() {
   const [city, setCity] = React.useState("");
@@ -30,8 +31,6 @@ function App() {
 
   const [currentTemperatureUnit, setCurrentTemperatureUnit] =
     React.useState("F");
-
-  const api = new Api("http://localhost:3001");
 
   function openGarmentModal() {
     setActiveModal("garment-form");
@@ -51,11 +50,11 @@ function App() {
       .postNewCard(newItem)
       .then((data) => {
         setClothing([data, ...clothing]);
+        closeModal();
       })
       .catch((err) => {
         console.error(err);
       });
-    closeModal();
   }
 
   function handleCardDelete(evt) {
@@ -152,7 +151,11 @@ function App() {
             <Route
               path="/profile"
               element={
-                <Profile clothing={clothing} onImgClick={openImgModal} />
+                <Profile
+                  clothing={clothing}
+                  onImgClick={openImgModal}
+                  onAddNewClick={openGarmentModal}
+                />
               }
             />
           </Routes>
@@ -170,19 +173,13 @@ function App() {
             card={currentItem}
             openConfirmPageHandler={openConfirmationModal}
           />
+
           <ConfirmationModal
             isOpen={activeModal === "delete-confirmation-form"}
-            name="del-confirmation"
-            deleteButtonText={"Yes, delete item"}
             onClose={closeModal}
             onOutsideClick={handleOutsideClkToCloseModal}
             onSubmit={handleCardDelete}
-          >
-            <p className="form__deletion-text">
-              Are you sure you want to delete this item? This action is
-              irreversible.
-            </p>
-          </ConfirmationModal>
+          />
         </ProfileInfoContext.Provider>
       </CurrentTemperatureUnitContext.Provider>
     </div>

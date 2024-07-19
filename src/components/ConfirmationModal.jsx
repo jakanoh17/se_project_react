@@ -1,42 +1,26 @@
 import React from "react";
+import ModalWithForm from "./ModalWithForm";
 
 const ConfirmationModal = React.memo(
-  ({
-    children,
-    isOpen,
-    name,
-    deleteButtonText,
-    onClose,
-    onOutsideClick,
-    onSubmit,
-  }) => {
+  ({ isOpen, onClose, onOutsideClick, onSubmit }) => {
     return (
       <div
-        className={`modal modal_type_${name} ${isOpen ? "modal_opened" : ""}`}
+        className={`modal modal_type_del-confirmation ${
+          isOpen ? "modal_opened" : ""
+        }`}
         onClick={onOutsideClick}
       >
-        <form
-          action=""
-          className="form modal__form modal__form_type_confirmation"
-          name={name}
+        <ModalWithForm
+          title="Are you sure you want to delete this item? This action is irreversible."
+          submitButtonText="Yes, delete item"
+          onClose={onClose}
           onSubmit={onSubmit}
+          submitBtnIsEnabled={true}
+          name="del-confirmation"
+          uniqueFormClass="deletion-form"
         >
-          <button
-            type="button"
-            className="modal__close-btn modal__close-btn_container_form"
-            onClick={onClose}
-          />
-          {children}
-          <button
-            type="submit"
-            className="form__submit-btn form__submit-btn_type_del-item"
-          >
-            {deleteButtonText}
-          </button>
-          <button type="button" className="form__cancel-btn" onClick={onClose}>
-            Cancel
-          </button>
-        </form>
+          <button className="form__cancel-btn">Cancel</button>
+        </ModalWithForm>
       </div>
     );
   }
