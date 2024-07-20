@@ -67,11 +67,11 @@ function App() {
           })
         );
         closeModal();
-        evt.preventDefault();
       })
       .catch((err) => {
         console.error(err);
       });
+    evt.preventDefault();
   }
 
   const closeModal = React.useCallback(() => {

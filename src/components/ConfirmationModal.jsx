@@ -15,7 +15,9 @@ const ConfirmationModal = React.memo(
         name="del-confirmation"
         uniqueFormClass="deletion-form"
       >
-        <button className="form__cancel-btn">Cancel</button>
+        <button type="button" className="form__cancel-btn" onClick={onClose}>
+          Cancel
+        </button>
       </ModalWithForm>
     );
   }
