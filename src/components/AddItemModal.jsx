@@ -43,99 +43,94 @@ const AddItemModal = React.memo(
     }, [errMsgs, inputValues]);
 
     return (
-      <div
-        className={`modal modal_type_add-garment ${
-          isOpen ? "modal_opened" : ""
-        }`}
-        onClick={onOutsideClick}
+      <ModalWithForm
+        isOpen={isOpen}
+        name="add-garment"
+        title="New garment"
+        submitButtonText="Add garment"
+        onClose={onCloseModal}
+        onSubmit={handleSubmit}
+        onOutsideClick={onOutsideClick}
+        submitBtnIsEnabled={submitBtnIsEnabled}
       >
-        <ModalWithForm
-          name="add-garment"
-          title="New garment"
-          submitButtonText="Add garment"
-          onClose={onCloseModal}
-          onSubmit={handleSubmit}
-          submitBtnIsEnabled={submitBtnIsEnabled}
-        >
-          <div className="form__entries">
-            <label className="form__label">
-              Name
+        <div className="form__entries">
+          <label className="form__label">
+            Name
+            <input
+              type="text"
+              className="form__input"
+              id="new-garment-name"
+              name="name"
+              value={inputValues.name || ""}
+              onChange={onInputChange}
+              placeholder="Name"
+              min={2}
+              max={40}
+              required
+            />
+            <span className="form__error-message">{errMsgs.name}</span>
+          </label>
+          <label className="form__label">
+            Image
+            <input
+              type="url"
+              id="new-garment-url"
+              name="imageUrl"
+              value={inputValues.imageUrl || ""}
+              onChange={onInputChange}
+              className="form__input"
+              placeholder="Image URL"
+              required
+            />
+            <span className="form__error-message">{errMsgs.imageUrl}</span>
+          </label>
+          <div className="form__radio-container">
+            <h4 className="form__sub-title">Select the weather types:</h4>
+            <label className="form__label form__label_type_radio">
               <input
-                type="text"
-                className="form__input"
-                id="new-garment-name"
-                name="name"
-                value={inputValues.name || ""}
+                type="radio"
+                name="weather"
+                value="hot"
                 onChange={onInputChange}
-                placeholder="Name"
-                min={2}
-                max={40}
-                required
+                id="hot"
+                className="form__input form__input_type_radio"
               />
-              <span className="form__error-message">{errMsgs.name}</span>
+              <span className="form__radio-span">Hot</span>
+              <div className="form__radio-opt">
+                <div className="form__chk-radio-opt"></div>
+              </div>
             </label>
-            <label className="form__label">
-              Image
+            <label className="form__label form__label_type_radio">
               <input
-                type="url"
-                id="new-garment-url"
-                name="imageUrl"
-                value={inputValues.imageUrl || ""}
+                type="radio"
+                name="weather"
+                value="warm"
                 onChange={onInputChange}
-                className="form__input"
-                placeholder="Image URL"
-                required
+                id="warm"
+                className="form__input form__input_type_radio"
               />
-              <span className="form__error-message">{errMsgs.imageUrl}</span>
+              <span className="form__radio-span">Warm</span>{" "}
+              <div className="form__radio-opt">
+                <div className="form__chk-radio-opt"></div>
+              </div>
             </label>
-            <div className="form__radio-container">
-              <h4 className="form__sub-title">Select the weather types:</h4>
-              <label className="form__label form__label_type_radio">
-                <input
-                  type="radio"
-                  name="weather"
-                  value="hot"
-                  onChange={onInputChange}
-                  id="hot"
-                  className="form__input form__input_type_radio"
-                />
-                <span className="form__radio-span">Hot</span>
-                <div className="form__radio-opt">
-                  <div className="form__chk-radio-opt"></div>
-                </div>
-              </label>
-              <label className="form__label form__label_type_radio">
-                <input
-                  type="radio"
-                  name="weather"
-                  value="warm"
-                  onChange={onInputChange}
-                  id="warm"
-                  className="form__input form__input_type_radio"
-                />
-                <span className="form__radio-span">Warm</span>{" "}
-                <div className="form__radio-opt">
-                  <div className="form__chk-radio-opt"></div>
-                </div>
-              </label>
-              <label className="form__label form__label_type_radio">
-                <input
-                  type="radio"
-                  name="weather"
-                  value="cold"
-                  onChange={onInputChange}
-                  id="cold"
-                  className="form__input form__input_type_radio"
-                />
-                <span className="form__radio-span">Cold</span>
-                <div className="form__radio-opt">
-                  <div className="form__chk-radio-opt"></div>
-                </div>
-              </label>
-            </div>
+            <label className="form__label form__label_type_radio">
+              <input
+                type="radio"
+                name="weather"
+                value="cold"
+                onChange={onInputChange}
+                id="cold"
+                className="form__input form__input_type_radio"
+              />
+              <span className="form__radio-span">Cold</span>
+              <div className="form__radio-opt">
+                <div className="form__chk-radio-opt"></div>
+              </div>
+            </label>
           </div>
-        </ModalWithForm>
-      </div>
+        </div>
+      </ModalWithForm>
     );
   }
 );

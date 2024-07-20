@@ -66,12 +66,12 @@ function App() {
             return currentItem._id != element._id;
           })
         );
+        closeModal();
+        evt.preventDefault();
       })
       .catch((err) => {
         console.error(err);
       });
-    closeModal();
-    evt.preventDefault();
   }
 
   const closeModal = React.useCallback(() => {
