@@ -100,4 +100,6 @@ const LoginModal = React.memo(
   }
 );
 
+LoginModal.displayName = "LoginModal";
+
 export default LoginModal;

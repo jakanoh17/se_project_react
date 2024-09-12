@@ -5,9 +5,9 @@ const RegisterModal = React.memo(
   ({
     isOpen,
     onClose,
-    onOutsideClick,
     registerAndLoginUser,
     onLoginBtnClk,
+    onOutsideClick,
   }) => {
     const [inputs, setInputs] = React.useState({});
     const [errMsgs, setErrMsgs] = React.useState({});
@@ -131,5 +131,7 @@ const RegisterModal = React.memo(
     );
   }
 );
+
+RegisterModal.displayName = "RegisterModal";
 
 export default RegisterModal;

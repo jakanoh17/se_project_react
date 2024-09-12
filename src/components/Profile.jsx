@@ -32,4 +32,6 @@ const Profile = React.memo(
   }
 );
 
+Profile.displayName = "Profile";
+
 export default Profile;

@@ -1,5 +1,4 @@
 import React from "react";
-import { ProfileInfoContext } from "../contexts/ProfileInfoContext";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 const SideBar = React.memo(
   ({ onChangeProfileClick, setIsLoggedIn, setCurrentUserData }) => {
@@ -37,5 +36,7 @@ const SideBar = React.memo(
     );
   }
 );
+
+SideBar.displayName = "SideBar";
 
 export default SideBar;

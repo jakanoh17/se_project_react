@@ -46,4 +46,5 @@ const WeatherCard = React.memo(({ temp, weatherType }) => {
   );
 });
 
+WeatherCard.displayName = "WeatherCard";
 export default WeatherCard;

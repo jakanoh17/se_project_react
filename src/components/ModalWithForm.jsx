@@ -62,4 +62,6 @@ const ModalWithForm = React.memo(
   }
 );
 
+ModalWithForm.displayName = "ModalWithForm";
+
 export default ModalWithForm;

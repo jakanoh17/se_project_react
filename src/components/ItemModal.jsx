@@ -36,4 +36,6 @@ const ItemModal = React.memo(
   }
 );
 
+ItemModal.displayName = "ItemModal";
+
 export default ItemModal;

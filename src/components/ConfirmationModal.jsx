@@ -23,4 +23,6 @@ const ConfirmationModal = React.memo(
   }
 );
 
+ConfirmationModal.displayName = "ConfirmationModal";
+
 export default ConfirmationModal;

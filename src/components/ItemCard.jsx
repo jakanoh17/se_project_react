@@ -35,4 +35,6 @@ const ItemCard = React.memo(({ item, onImgClick, onCardLike, isLoggedIn }) => {
   );
 });
 
+ItemCard.displayName = "ItemCard";
+
 export default ItemCard;

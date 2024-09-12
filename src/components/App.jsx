@@ -18,10 +18,6 @@ import Api from "../utils/utils/Api.js";
 import AuthorizeUser from "../utils/utils/auth.js";
 
 import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext.js";
-import {
-  ProfileInfoContext,
-  profileInfo,
-} from "../contexts/ProfileInfoContext.js";
 import CurrentUserContext from "../contexts/CurrentUserContext.js";
 import EditProfileModal from "./EditProfileModal.jsx";
 
@@ -162,7 +158,7 @@ function App() {
     }
   }
 
-  function handleCardDelete(evt) {
+  function handleCardDelete() {
     if (isLoggedIn) {
       apiRef.current
         .deleteCard(currentItem._id)
@@ -184,11 +180,14 @@ function App() {
     setActiveModal("");
   }, []);
 
-  const handleOutsideClkToCloseModal = React.useCallback((evt) => {
-    if (evt.target === evt.currentTarget) {
-      closeModals();
-    }
-  }, []);
+  const handleOutsideClkToCloseModal = React.useCallback(
+    (evt) => {
+      if (evt.target === evt.currentTarget) {
+        closeModals();
+      }
+    },
+    [closeModals]
+  );
 
   // INITIALLY GET CARDS
   apiRef.current
@@ -221,92 +220,90 @@ function App() {
     <CurrentTemperatureUnitContext.Provider
       value={{ currentTemperatureUnit, setCurrentTemperatureUnit }}
     >
-      <ProfileInfoContext.Provider value={profileInfo}>
-        <CurrentUserContext.Provider value={currentUserData}>
-          <div className="page">
-            <Header
-              city={city}
-              isLoggedIn={isLoggedIn}
-              addClothesHandler={openGarmentModal}
-              onSignUpBtnClk={openRegisterModal}
-              onLoginBtnClk={openLoginModal}
+      <CurrentUserContext.Provider value={currentUserData}>
+        <div className="page">
+          <Header
+            city={city}
+            isLoggedIn={isLoggedIn}
+            addClothesHandler={openGarmentModal}
+            onSignUpBtnClk={openRegisterModal}
+            onLoginBtnClk={openLoginModal}
+          />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Main
+                  temp={temp[currentTemperatureUnit]}
+                  onImgClick={openImgModal}
+                  weatherType={genWeather}
+                  clothing={clothing}
+                  onCardLike={handleCardLike}
+                  isLoggedIn={isLoggedIn}
+                />
+              }
             />
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <Main
-                    temp={temp[currentTemperatureUnit]}
-                    onImgClick={openImgModal}
-                    weatherType={genWeather}
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <Profile
                     clothing={clothing}
+                    onImgClick={openImgModal}
+                    onAddNewClick={openGarmentModal}
+                    openEditProfileModal={openEditProfileModal}
+                    setIsLoggedIn={setIsLoggedIn}
                     onCardLike={handleCardLike}
                     isLoggedIn={isLoggedIn}
+                    setCurrentUserData={setCurrentUserData}
                   />
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <ProtectedRoute isLoggedIn={isLoggedIn}>
-                    <Profile
-                      clothing={clothing}
-                      onImgClick={openImgModal}
-                      onAddNewClick={openGarmentModal}
-                      openEditProfileModal={openEditProfileModal}
-                      setIsLoggedIn={setIsLoggedIn}
-                      onCardLike={handleCardLike}
-                      isLoggedIn={isLoggedIn}
-                      setCurrentUserData={setCurrentUserData}
-                    />
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-            <Footer />
-            <AddItemModal
-              isOpen={activeModal === "garment-form"}
-              onClose={closeModals}
-              onOutsideClick={handleOutsideClkToCloseModal}
-              onAddItem={addNewCard}
+                </ProtectedRoute>
+              }
             />
-            <ItemModal
-              isOpen={activeModal === "item-image"}
-              onClose={closeModals}
-              onOutsideClick={handleOutsideClkToCloseModal}
-              card={currentItem}
-              openConfirmPageHandler={openConfirmationModal}
-            />
-            <ConfirmationModal
-              isOpen={activeModal === "delete-confirmation-form"}
-              onClose={closeModals}
-              onOutsideClick={handleOutsideClkToCloseModal}
-              onSubmit={handleCardDelete}
-            />
-            <RegisterModal
-              isOpen={activeModal === "register-form"}
-              onClose={closeModals}
-              onOutsideClick={handleOutsideClkToCloseModal}
-              registerAndLoginUser={registerAndLoginUser}
-              onLoginBtnClk={openLoginModal}
-            />
-            <LoginModal
-              isOpen={activeModal === "login-form"}
-              onClose={closeModals}
-              onOutsideClick={handleOutsideClkToCloseModal}
-              onSignUpBtnClk={openRegisterModal}
-              loginUser={loginUser}
-            />
-            <EditProfileModal
-              isOpen={activeModal === "edit-profile-form"}
-              onClose={closeModals}
-              onOutsideClick={handleOutsideClkToCloseModal}
-              apiRef={apiRef}
-              setCurrentUserData={setCurrentUserData}
-            />
-          </div>{" "}
-        </CurrentUserContext.Provider>
-      </ProfileInfoContext.Provider>
+          </Routes>
+          <Footer />
+          <AddItemModal
+            isOpen={activeModal === "garment-form"}
+            onClose={closeModals}
+            onOutsideClick={handleOutsideClkToCloseModal}
+            onAddItem={addNewCard}
+          />
+          <ItemModal
+            isOpen={activeModal === "item-image"}
+            onClose={closeModals}
+            onOutsideClick={handleOutsideClkToCloseModal}
+            card={currentItem}
+            openConfirmPageHandler={openConfirmationModal}
+          />
+          <ConfirmationModal
+            isOpen={activeModal === "delete-confirmation-form"}
+            onClose={closeModals}
+            onOutsideClick={handleOutsideClkToCloseModal}
+            onSubmit={handleCardDelete}
+          />
+          <RegisterModal
+            isOpen={activeModal === "register-form"}
+            onClose={closeModals}
+            onOutsideClick={handleOutsideClkToCloseModal}
+            registerAndLoginUser={registerAndLoginUser}
+            onLoginBtnClk={openLoginModal}
+          />
+          <LoginModal
+            isOpen={activeModal === "login-form"}
+            onClose={closeModals}
+            onOutsideClick={handleOutsideClkToCloseModal}
+            onSignUpBtnClk={openRegisterModal}
+            loginUser={loginUser}
+          />
+          <EditProfileModal
+            isOpen={activeModal === "edit-profile-form"}
+            onClose={closeModals}
+            onOutsideClick={handleOutsideClkToCloseModal}
+            apiRef={apiRef}
+            setCurrentUserData={setCurrentUserData}
+          />
+        </div>{" "}
+      </CurrentUserContext.Provider>
     </CurrentTemperatureUnitContext.Provider>
   );
 }

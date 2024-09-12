@@ -28,7 +28,7 @@ const Main = ({
           return tempCategory == item.weather;
         })
       : [];
-  }, [temp, clothing]);
+  }, [temp, clothing, tempCategory]);
 
   return (
     <main>

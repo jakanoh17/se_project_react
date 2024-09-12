@@ -37,4 +37,6 @@ const ClothesSection = React.memo(
   }
 );
 
+ClothesSection.displayName = "ClothesSection";
+
 export default ClothesSection;

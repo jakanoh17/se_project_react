@@ -47,4 +47,5 @@ const ToggleSwitch = React.memo(() => {
   );
 });
 
+ToggleSwitch.displayName = "ToggleSwitch";
 export default ToggleSwitch;

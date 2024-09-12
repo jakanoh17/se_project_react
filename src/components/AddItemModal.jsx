@@ -135,4 +135,5 @@ const AddItemModal = React.memo(
   }
 );
 
+AddItemModal.displayName = "AddItemModal";
 export default AddItemModal;
