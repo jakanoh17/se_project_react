@@ -2,17 +2,22 @@ import React from "react";
 import ModalWithForm from "./ModalWithForm";
 
 const AddItemModal = React.memo(
-  ({ isOpen, onCloseModal, onOutsideClick, onAddItem }) => {
+  ({ isOpen, onClose, onOutsideClick, onAddItem }) => {
     const [inputValues, setInputValues] = React.useState({});
     const [errMsgs, setErrMsgs] = React.useState({});
 
     const [submitBtnIsEnabled, setSubmitBtnIsEnabled] = React.useState(false);
 
+    function handleSubmit() {
+      onAddItem(inputValues);
+      setInputValues({});
+      document.querySelector(".form_type_add-garment").reset();
+    }
+
     function onInputChange(evt) {
       const newInputObj = { ...inputValues };
       newInputObj[evt.target.name] = evt.target.value;
       setInputValues(newInputObj);
-
       let newErrMsgsObj = { ...errMsgs };
       if (!evt.target.validity.valid) {
         newErrMsgsObj[evt.target.name] = evt.target.validationMessage;
@@ -23,18 +28,13 @@ const AddItemModal = React.memo(
       }
     }
 
-    function handleSubmit(evt) {
-      onAddItem(inputValues);
-      evt.preventDefault();
-    }
-
+    // FORM VALIDATION
     React.useEffect(() => {
       const errMsgsObjValues = Object.values(errMsgs);
       const errors = errMsgsObjValues.some((value) => value != "");
 
       const inputObjValues = Object.values(inputValues);
       const emptyInputs = inputObjValues.some((value) => value == "");
-
       if (errors || emptyInputs || inputObjValues.length < 3) {
         setSubmitBtnIsEnabled(false);
       } else {
@@ -48,7 +48,7 @@ const AddItemModal = React.memo(
         name="add-garment"
         title="New garment"
         submitButtonText="Add garment"
-        onClose={onCloseModal}
+        onClose={onClose}
         onSubmit={handleSubmit}
         onOutsideClick={onOutsideClick}
         submitBtnIsEnabled={submitBtnIsEnabled}
@@ -91,7 +91,7 @@ const AddItemModal = React.memo(
                 type="radio"
                 name="weather"
                 value="hot"
-                onChange={onInputChange}
+                onClick={onInputChange}
                 id="hot"
                 className="form__input form__input_type_radio"
               />
@@ -105,7 +105,7 @@ const AddItemModal = React.memo(
                 type="radio"
                 name="weather"
                 value="warm"
-                onChange={onInputChange}
+                onClick={onInputChange}
                 id="warm"
                 className="form__input form__input_type_radio"
               />
@@ -119,7 +119,7 @@ const AddItemModal = React.memo(
                 type="radio"
                 name="weather"
                 value="cold"
-                onChange={onInputChange}
+                onClick={onInputChange}
                 id="cold"
                 className="form__input form__input_type_radio"
               />

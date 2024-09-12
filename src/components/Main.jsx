@@ -3,28 +3,31 @@ import React from "react";
 import ItemCard from "./ItemCard";
 import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
 
-const Main = React.memo(({ temp, onImgClick, weatherType, clothing }) => {
-  const [filteredClothes, setFilteredClothes] = React.useState([]);
-
+const Main = ({
+  temp,
+  onImgClick,
+  onCardLike,
+  weatherType,
+  clothing,
+  isLoggedIn,
+}) => {
   const { currentTemperatureUnit } = React.useContext(
     CurrentTemperatureUnitContext
   );
 
-  function determineWeatherType() {
+  function determineTempCategory() {
     if (currentTemperatureUnit === "F") {
       return temp > 80 ? "hot" : temp > 60 ? "warm" : "cold";
     } else return temp > 27 ? "hot" : temp > 16 ? "warm" : "cold";
   }
 
-  React.useEffect(() => {
-    if (temp) {
-      const weather = determineWeatherType();
-      setFilteredClothes(
-        clothing.filter((item) => {
-          return weather == item.weather;
+  const tempCategory = determineTempCategory();
+  const filteredClothes = React.useMemo(() => {
+    return temp
+      ? clothing.filter((item) => {
+          return tempCategory == item.weather;
         })
-      );
-    }
+      : [];
   }, [temp, clothing]);
 
   return (
@@ -39,7 +42,12 @@ const Main = React.memo(({ temp, onImgClick, weatherType, clothing }) => {
           {filteredClothes.map((item) => {
             return (
               <li key={item._id} className="gallery__card">
-                <ItemCard item={item} onImgClick={onImgClick} />
+                <ItemCard
+                  item={item}
+                  onImgClick={onImgClick}
+                  onCardLike={onCardLike}
+                  isLoggedIn={isLoggedIn}
+                />
               </li>
             );
           })}
@@ -47,6 +55,6 @@ const Main = React.memo(({ temp, onImgClick, weatherType, clothing }) => {
       </div>
     </main>
   );
-});
+};
 
 export default Main;

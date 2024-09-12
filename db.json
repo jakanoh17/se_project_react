@@ -85,10 +85,10 @@
       "imageUrl": "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/T-Shirt.png?etag=44ed1963c44ab19cd2f5011522c5fc09"
     },
     {
-      "name": "long",
-      "imageUrl": "https://hips.hearstapps.com/hmg-prod/images/alexander-design-grayfox-1-1552320939.jpg?crop=0.944xw:1.00xh;0.00850xw,0&resize=980:*",
+      "name": "shorts",
+      "imageUrl": "https://m.media-amazon.com/images/I/71o3seXJPQL._AC_SX679_.jpg",
       "weather": "hot",
-      "_id": 18
+      "_id": 17
     }
   ]
 }

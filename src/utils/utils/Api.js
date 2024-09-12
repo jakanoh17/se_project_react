@@ -1,6 +1,7 @@
 class Api {
-  constructor(baseUrl) {
+  constructor(baseUrl, token) {
     this.baseUrl = baseUrl;
+    this.token = token;
   }
 
   _requestTemplate(endpoint, method, body) {
@@ -8,6 +9,7 @@ class Api {
       method: method,
       headers: {
         "Content-Type": "application/json",
+        authorization: `Bearer ${this.token}`,
       },
       body: JSON.stringify(body),
     }).then((res) => {
@@ -27,6 +29,22 @@ class Api {
 
   deleteCard(cardId) {
     return this._requestTemplate(`/items/${cardId}`, "DELETE");
+  }
+
+  getUserData() {
+    return this._requestTemplate("/users/me", "GET");
+  }
+
+  editUserData({ name, avatar }) {
+    return this._requestTemplate("/users/me", "PATCH", { name, avatar });
+  }
+
+  addCardLike(itemId) {
+    return this._requestTemplate(`/items/${itemId}/likes`, "PUT");
+  }
+
+  removeCardLike(itemId) {
+    return this._requestTemplate(`/items/${itemId}/likes`, "DELETE");
   }
 }
 

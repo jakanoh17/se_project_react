@@ -9,11 +9,11 @@
 }
 
 .form_type_del-confirmation {
-  display: flex;
-  flex-direction: column;
   padding: 60px;
   justify-content: center;
   align-items: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .form__title {
@@ -135,12 +135,27 @@
   background: none;
 }
 
+.form__submit-btn_type_auth-modal {
+  max-width: 86px;
+  max-height: 36px;
+  display: inline-block;
+}
+
 .form__cancel-btn {
   order: 2;
   background: none;
   border: none;
   font-size: 20px;
-  margin: 24px 0;
   cursor: pointer;
   margin: 24px 0 0;
+}
+
+.form__login-btn {
+  display: inline-block;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  margin: 24px 0 0;
+  color: #0000004d;
 }

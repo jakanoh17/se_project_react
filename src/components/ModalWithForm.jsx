@@ -12,7 +12,14 @@ const ModalWithForm = React.memo(
     onOutsideClick,
     submitBtnIsEnabled,
     uniqueFormClass,
+    secondFormBtn,
   }) => {
+    function handleFormSubmit(evt) {
+      evt.preventDefault();
+      onSubmit();
+      onClose();
+    }
+
     return (
       <div
         className={`modal modal_type_${name} ${isOpen ? "modal_opened" : ""}`}
@@ -22,7 +29,7 @@ const ModalWithForm = React.memo(
           action=""
           className={`form form_type_${name}`}
           name={`${name}-form`}
-          onSubmit={onSubmit}
+          onSubmit={handleFormSubmit}
         >
           <button
             type="button"
@@ -48,6 +55,7 @@ const ModalWithForm = React.memo(
           >
             {submitButtonText}
           </button>
+          {secondFormBtn}
         </form>
       </div>
     );

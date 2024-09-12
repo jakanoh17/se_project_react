@@ -34,19 +34,43 @@
   position: relative;
 }
 
+.gallery__card-header {
+  z-index: 1;
+  position: absolute;
+  top: 15px;
+}
+
 .gallery__card-title {
-  margin: 0;
+  display: inline;
+  margin: 0 10px 0 0;
   color: #0009;
   background-color: #fff;
   padding: 2px 12px;
   border-radius: 4px;
-  z-index: 1;
-  position: absolute;
-  top: 15px;
 }
 
 .gallery__card-image {
   cursor: pointer;
   height: 100%;
   width: 100%;
+}
+
+.gallery__like-button,
+.gallery__like-button_selected {
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border: none;
+  width: 18px;
+  height: 15px;
+  cursor: pointer;
+}
+
+.gallery__like-button {
+  background-image: url("../assets/unselectedLikeBtn.svg");
+}
+
+.gallery__like-button_selected {
+  background-image: url("../assets/selectedLikeBtn.svg");
 }

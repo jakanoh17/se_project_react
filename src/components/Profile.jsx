@@ -2,17 +2,34 @@ import React from "react";
 import SideBar from "./SideBar";
 import ClothesSection from "./ClothesSection";
 
-const Profile = React.memo(({ clothing, onImgClick, onAddNewClick }) => {
-  return (
-    <main className="profile">
-      <SideBar />
-      <ClothesSection
-        clothing={clothing}
-        onImgClick={onImgClick}
-        onAddNewClick={onAddNewClick}
-      />
-    </main>
-  );
-});
+const Profile = React.memo(
+  ({
+    clothing,
+    onImgClick,
+    onAddNewClick,
+    openEditProfileModal,
+    setIsLoggedIn,
+    onCardLike,
+    isLoggedIn,
+    setCurrentUserData,
+  }) => {
+    return (
+      <main className="profile">
+        <SideBar
+          onChangeProfileClick={openEditProfileModal}
+          setIsLoggedIn={setIsLoggedIn}
+          setCurrentUserData={setCurrentUserData}
+        />
+        <ClothesSection
+          clothing={clothing}
+          onImgClick={onImgClick}
+          onAddNewClick={onAddNewClick}
+          onCardLike={onCardLike}
+          isLoggedIn={isLoggedIn}
+        />
+      </main>
+    );
+  }
+);
 
 export default Profile;

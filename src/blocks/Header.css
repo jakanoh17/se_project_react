@@ -26,12 +26,18 @@
   margin-right: 20px;
 }
 
-.header__add-clothes-btn {
+.header__add-clothes-btn,
+.header__signup-btn,
+.header__login-btn {
   padding: 0;
   background-color: transparent;
   border: none;
   cursor: pointer;
   font-weight: 700;
+}
+
+.header__signup-btn {
+  margin-right: 20px;
 }
 
 .header__link {
@@ -49,8 +55,19 @@
   margin-left: 20px;
 }
 
-.header__avatar {
+.header__avatar,
+.header__avatar-placeholder {
   width: 40px;
   height: 40px;
   margin-left: 12px;
+  border-radius: 50%;
+  border: 1px solid #00000080;
+}
+
+.header__avatar-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #00000033;
+  color: #ffffff;
 }
