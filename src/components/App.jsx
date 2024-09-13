@@ -190,14 +190,16 @@ function App() {
   );
 
   // INITIALLY GET CARDS
-  apiRef.current
-    .getCards()
-    .then((data) => {
-      setClothing(data.reverse());
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  React.useEffect(() => {
+    apiRef.current
+      .getCards()
+      .then((data) => {
+        setClothing(data.reverse());
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
   //CLOSE MODAL
   React.useEffect(() => {
