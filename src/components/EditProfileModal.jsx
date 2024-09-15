@@ -6,7 +6,7 @@ function EditProfileModal({
   isOpen,
   onClose,
   onOutsideClick,
-  apiRef,
+  api,
   setCurrentUserData,
 }) {
   const currentUserData = React.useContext(CurrentUserContext);
@@ -22,9 +22,10 @@ function EditProfileModal({
   }, [currentUserData]);
 
   function handleSubmit() {
+    const token = localStorage.getItem("jwt");
     const { updatedUsername: name, updatedAvatar: avatar } = values;
-    apiRef.current
-      .editUserData({ name, avatar })
+    api
+      .editUserData(token, { name, avatar })
       .then((responseUserData) => {
         setCurrentUserData(responseUserData);
       })

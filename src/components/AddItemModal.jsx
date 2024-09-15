@@ -18,7 +18,9 @@ const AddItemModal = React.memo(
     }, []);
 
     function resetAddCardForm() {
+      // Resets the radio input, an uncontrolled input
       document.querySelector(".form_type_add-garment").reset();
+      // Resets the remaining inputs, controlled inputs
       resetForm();
     }
 

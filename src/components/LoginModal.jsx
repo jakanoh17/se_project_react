@@ -1,48 +1,18 @@
 import React from "react";
 import ModalWithForm from "./ModalWithForm";
+import { useFormAndValidation } from "../utils/utils/useFormAndValidation";
 
 const LoginModal = React.memo(
   ({ isOpen, onClose, onOutsideClick, onSignUpBtnClk, loginUser }) => {
-    const [inputValues, setInputValues] = React.useState({});
-    const [errMsgs, setErrMsgs] = React.useState({});
-
-    const [submitBtnIsEnabled, setSubmitBtnIsEnabled] = React.useState(false);
-
-    function onInputChange(evt) {
-      const newInputObj = { ...inputValues };
-      newInputObj[evt.target.name] = evt.target.value;
-      setInputValues(newInputObj);
-
-      let newErrMsgsObj = { ...errMsgs };
-      if (!evt.target.validity.valid) {
-        newErrMsgsObj[evt.target.name] = evt.target.validationMessage;
-        setErrMsgs(newErrMsgsObj);
-      } else {
-        newErrMsgsObj[evt.target.name] = "";
-        setErrMsgs(newErrMsgsObj);
-      }
-    }
+    const { values, handleChange, errors, isValid, resetForm, setIsValid } =
+      useFormAndValidation();
 
     React.useEffect(() => {
-      const errMsgsObjValues = Object.values(errMsgs);
-      const errors = errMsgsObjValues.some((value) => value != "");
-
-      const inputObjValues = Object.values(inputValues);
-      const emptyInputs = inputObjValues.some((value) => value == "");
-
-      if (errors || emptyInputs || inputObjValues.length < 2) {
-        setSubmitBtnIsEnabled(false);
-      } else {
-        setSubmitBtnIsEnabled(true);
-      }
-    }, [errMsgs, inputValues]);
-
-    function resetForm() {
-      setInputValues({});
-    }
+      setIsValid(false);
+    }, []);
 
     function handleSubmit() {
-      const { loginEmail: email, loginPassword: password } = inputValues;
+      const { loginEmail: email, loginPassword: password } = values;
       loginUser({ email, password }, resetForm);
     }
 
@@ -64,7 +34,7 @@ const LoginModal = React.memo(
         onClose={onClose}
         onSubmit={handleSubmit}
         onOutsideClick={onOutsideClick}
-        submitBtnIsEnabled={submitBtnIsEnabled}
+        submitBtnIsEnabled={isValid}
         uniqueFormClass="auth-modal"
         secondFormBtn={secondFormBtn}
       >
@@ -76,12 +46,12 @@ const LoginModal = React.memo(
               className="form__input"
               id="login-email"
               name="loginEmail"
-              value={inputValues.loginEmail || ""}
-              onChange={onInputChange}
+              value={values.loginEmail || ""}
+              onChange={handleChange}
               placeholder="Email"
               required
             />
-            <span className="form__error-message">{errMsgs.email}</span>
+            <span className="form__error-message">{errors.loginEmail}</span>
           </label>
           <label className="form__label">
             Password
@@ -89,13 +59,13 @@ const LoginModal = React.memo(
               type="password"
               id="login-password"
               name="loginPassword"
-              value={inputValues.loginPassword || ""}
-              onChange={onInputChange}
+              value={values.loginPassword || ""}
+              onChange={handleChange}
               className="form__input"
               placeholder="Password"
               required
             />
-            <span className="form__error-message">{errMsgs.password}</span>
+            <span className="form__error-message">{errors.loginPassword}</span>
           </label>
         </div>
       </ModalWithForm>

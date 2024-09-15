@@ -1,15 +1,14 @@
 class Api {
-  constructor(baseUrl, token) {
+  constructor(baseUrl) {
     this.baseUrl = baseUrl;
-    this.token = token;
   }
 
-  _requestTemplate(endpoint, method, body) {
+  _requestTemplate(endpoint, method, token, body) {
     return fetch(this.baseUrl + endpoint, {
       method: method,
       headers: {
         "Content-Type": "application/json",
-        authorization: `Bearer ${this.token}`,
+        authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(body),
     }).then((res) => {
@@ -23,28 +22,28 @@ class Api {
     return this._requestTemplate("/items", "GET");
   }
 
-  postNewCard(newCard) {
-    return this._requestTemplate("/items", "POST", newCard);
+  postNewCard(token, newCard) {
+    return this._requestTemplate("/items", "POST", token, newCard);
   }
 
-  deleteCard(cardId) {
-    return this._requestTemplate(`/items/${cardId}`, "DELETE");
+  deleteCard(token, cardId) {
+    return this._requestTemplate(`/items/${cardId}`, "DELETE", token);
   }
 
-  getUserData() {
-    return this._requestTemplate("/users/me", "GET");
+  getUserData(token) {
+    return this._requestTemplate("/users/me", "GET", token);
   }
 
-  editUserData({ name, avatar }) {
-    return this._requestTemplate("/users/me", "PATCH", { name, avatar });
+  editUserData(token, { name, avatar }) {
+    return this._requestTemplate("/users/me", "PATCH", token, { name, avatar });
   }
 
-  addCardLike(itemId) {
-    return this._requestTemplate(`/items/${itemId}/likes`, "PUT");
+  addCardLike(token, itemId) {
+    return this._requestTemplate(`/items/${itemId}/likes`, "PUT", token);
   }
 
-  removeCardLike(itemId) {
-    return this._requestTemplate(`/items/${itemId}/likes`, "DELETE");
+  removeCardLike(token, itemId) {
+    return this._requestTemplate(`/items/${itemId}/likes`, "DELETE", token);
   }
 }
 

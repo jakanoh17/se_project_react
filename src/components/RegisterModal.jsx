@@ -1,5 +1,6 @@
 import ModalWithForm from "./ModalWithForm";
 import React from "react";
+import { useFormAndValidation } from "../utils/utils/useFormAndValidation";
 
 const RegisterModal = React.memo(
   ({
@@ -9,46 +10,15 @@ const RegisterModal = React.memo(
     onLoginBtnClk,
     onOutsideClick,
   }) => {
-    const [inputs, setInputs] = React.useState({});
-    const [errMsgs, setErrMsgs] = React.useState({});
-
-    const [submitBtnIsEnabled, setSubmitBtnIsEnabled] = React.useState(false);
-
-    function onInputChange(evt) {
-      const newInputObj = { ...inputs };
-      newInputObj[evt.target.name] = evt.target.value;
-      setInputs(newInputObj);
-
-      let newErrMsgsObj = { ...errMsgs };
-      if (!evt.target.validity.valid) {
-        newErrMsgsObj[evt.target.name] = evt.target.validationMessage;
-        setErrMsgs(newErrMsgsObj);
-      } else {
-        newErrMsgsObj[evt.target.name] = "";
-        setErrMsgs(newErrMsgsObj);
-      }
-    }
+    const { values, handleChange, errors, isValid, resetForm, setIsValid } =
+      useFormAndValidation();
 
     React.useEffect(() => {
-      const errMsgsObjValues = Object.values(errMsgs);
-      const errors = errMsgsObjValues.some((value) => value != "");
-
-      const inputObjValues = Object.values(inputs);
-      const emptyInputs = inputObjValues.some((value) => value == "");
-
-      if (errors || emptyInputs || inputObjValues.length < 4) {
-        setSubmitBtnIsEnabled(false);
-      } else {
-        setSubmitBtnIsEnabled(true);
-      }
-    }, [errMsgs, inputs]);
-
-    function resetForm() {
-      setInputs({});
-    }
+      setIsValid(false);
+    }, []);
 
     function handleSubmit() {
-      registerAndLoginUser(inputs, resetForm);
+      registerAndLoginUser(values, resetForm);
     }
 
     const secondFormBtn = (
@@ -66,7 +36,7 @@ const RegisterModal = React.memo(
         onClose={onClose}
         onSubmit={handleSubmit}
         onOutsideClick={onOutsideClick}
-        submitBtnIsEnabled={submitBtnIsEnabled}
+        submitBtnIsEnabled={isValid}
         uniqueFormClass="auth-modal"
         secondFormBtn={secondFormBtn}
       >
@@ -78,12 +48,12 @@ const RegisterModal = React.memo(
               className="form__input"
               id="email"
               name="email"
-              value={inputs.email || ""}
-              onChange={onInputChange}
+              value={values.email || ""}
+              onChange={handleChange}
               placeholder="Email"
               required
             />
-            <span className="form__error-message">{errMsgs.email}</span>
+            <span className="form__error-message">{errors.email}</span>
           </label>
           <label className="form__label">
             Password *
@@ -91,13 +61,13 @@ const RegisterModal = React.memo(
               type="password"
               id="register-password"
               name="password"
-              value={inputs.password || ""}
-              onChange={onInputChange}
+              value={values.password || ""}
+              onChange={handleChange}
               className="form__input"
               placeholder="Password"
               required
             />
-            <span className="form__error-message">{errMsgs.password}</span>
+            <span className="form__error-message">{errors.password}</span>
           </label>
           <label className="form__label">
             Name *
@@ -105,15 +75,15 @@ const RegisterModal = React.memo(
               type="text"
               id="register-username"
               name="username"
-              value={inputs.username || ""}
-              onChange={onInputChange}
+              value={values.username || ""}
+              onChange={handleChange}
               className="form__input"
               placeholder="Name"
               min={2}
               max={40}
               required
             />
-            <span className="form__error-message">{errMsgs.username}</span>
+            <span className="form__error-message">{errors.username}</span>
           </label>
           <label className="form__label">
             Avatar URL *
@@ -121,13 +91,13 @@ const RegisterModal = React.memo(
               type="url"
               id="register-avatar-url"
               name="avatar"
-              value={inputs.avatar || ""}
-              onChange={onInputChange}
+              value={values.avatar || ""}
+              onChange={handleChange}
               className="form__input"
               placeholder="Avatar URL"
               required
             />
-            <span className="form__error-message">{errMsgs.avatar}</span>
+            <span className="form__error-message">{errors.avatar}</span>
           </label>
         </div>
       </ModalWithForm>

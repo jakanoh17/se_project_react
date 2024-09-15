@@ -15,7 +15,7 @@ const ItemCard = React.memo(({ item, onImgClick, onCardLike, isLoggedIn }) => {
   }
 
   function handleLike() {
-    onCardLike(item._id, isLiked, setIsLiked(!isLiked));
+    onCardLike(item._id, isLiked, setIsLiked);
   }
 
   return (

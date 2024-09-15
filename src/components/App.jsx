@@ -22,6 +22,7 @@ import CurrentUserContext from "../contexts/CurrentUserContext.js";
 import EditProfileModal from "./EditProfileModal.jsx";
 
 const authorizeUser = new AuthorizeUser("http://localhost:3001");
+const api = new Api("http://localhost:3001");
 
 function App() {
   const [city, setCity] = React.useState("");
@@ -41,7 +42,6 @@ function App() {
     avatar: "",
     email: "",
   });
-  const apiRef = React.useRef(new Api("http://localhost:3001", ""));
 
   function openGarmentModal() {
     setActiveModal("garment-form");
@@ -101,9 +101,8 @@ function App() {
   }
 
   function getUserData(token) {
-    apiRef.current = new Api("http://localhost:3001", token);
-    apiRef.current
-      .getUserData()
+    api
+      .getUserData(token)
       .then((responseUserData) => {
         setCurrentUserData(responseUserData);
         setIsLoggedIn(true);
@@ -126,18 +125,20 @@ function App() {
   }, []);
 
   function handleCardLike(itemId, isLiked, setLike) {
+    const token = localStorage.getItem("jwt");
+
     !isLiked
-      ? apiRef.current
-          .addCardLike(itemId)
+      ? api
+          .addCardLike(token, itemId)
           .then((updatedCard) => {
             setClothing((cards) =>
               cards.map((item) => (item._id === itemId ? updatedCard : item))
             );
-            setLike();
+            setLike(!isLiked);
           })
           .catch(console.error)
-      : apiRef.current
-          .removeCardLike(itemId)
+      : api
+          .removeCardLike(token, itemId)
           .then((updatedCard) => {
             setClothing((cards) =>
               cards.map((item) => (item._id === itemId ? updatedCard : item))
@@ -149,8 +150,10 @@ function App() {
 
   function addNewCard(newItem, resetForm) {
     if (isLoggedIn) {
-      apiRef.current
-        .postNewCard(newItem)
+      const token = localStorage.getItem("jwt");
+
+      api
+        .postNewCard(token, newItem)
         .then((responseBody) => {
           setClothing((prevClothing) => [responseBody.data, ...prevClothing]);
           closeModals();
@@ -164,8 +167,9 @@ function App() {
 
   function handleCardDelete() {
     if (isLoggedIn) {
-      apiRef.current
-        .deleteCard(currentItem._id)
+      const token = localStorage.getItem("jwt");
+      api
+        .deleteCard(token, currentItem._id)
         .then(() => {
           setClothing(
             clothing.filter((element) => {
@@ -195,9 +199,10 @@ function App() {
 
   // INITIALLY GET CARDS
   React.useEffect(() => {
-    apiRef.current
+    api
       .getCards()
       .then((data) => {
+        console.log(123);
         setClothing(data.reverse());
       })
       .catch(console.error);
@@ -303,7 +308,7 @@ function App() {
             isOpen={activeModal === "edit-profile-form"}
             onClose={closeModals}
             onOutsideClick={handleOutsideClkToCloseModal}
-            apiRef={apiRef}
+            api={api}
             setCurrentUserData={setCurrentUserData}
           />
         </div>{" "}
