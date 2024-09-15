@@ -75,26 +75,29 @@ function App() {
     }
   }, []);
 
-  function loginUser({ email, password }) {
+  function loginUser({ email, password }, resetForm) {
     authorizeUser
       .loginUser({ email, password })
       .then((data) => {
         localStorage.setItem("jwt", data.token);
         getUserData(data.token);
         setIsLoggedIn(true);
+        resetForm();
       })
-      .catch((err) => {
-        console.error(err);
-      });
+      .catch(console.error);
   }
 
-  function registerAndLoginUser({ email, password, username, avatar }) {
+  function registerAndLoginUser(
+    { email, password, username, avatar },
+    resetForm
+  ) {
     authorizeUser
       .registerUser({ email, password, username, avatar })
       .then(() => {
         loginUser({ email, password });
+        resetForm();
       })
-      .catch((err) => console.error(err));
+      .catch(console.error);
   }
 
   function getUserData(token) {
@@ -105,7 +108,7 @@ function App() {
         setCurrentUserData(responseUserData);
         setIsLoggedIn(true);
       })
-      .catch((err) => console.error(err));
+      .catch(console.error);
   }
 
   //GET WEATHER DATA
@@ -119,12 +122,10 @@ function App() {
         setTemp(climate.temp);
         setGenWeather(climate.genWeather);
       })
-      .catch((err) => {
-        console.error(err);
-      });
+      .catch(console.error);
   }, []);
 
-  function handleCardLike(itemId, isLiked) {
+  function handleCardLike(itemId, isLiked, setLike) {
     !isLiked
       ? apiRef.current
           .addCardLike(itemId)
@@ -132,25 +133,28 @@ function App() {
             setClothing((cards) =>
               cards.map((item) => (item._id === itemId ? updatedCard : item))
             );
+            setLike();
           })
-          .catch((err) => console.error(err))
+          .catch(console.error)
       : apiRef.current
           .removeCardLike(itemId)
           .then((updatedCard) => {
             setClothing((cards) =>
               cards.map((item) => (item._id === itemId ? updatedCard : item))
             );
+            setLike();
           })
-          .catch((err) => console.error(err));
+          .catch(console.error);
   }
 
-  function addNewCard(newItem) {
+  function addNewCard(newItem, resetForm) {
     if (isLoggedIn) {
       apiRef.current
         .postNewCard(newItem)
         .then((responseBody) => {
           setClothing((prevClothing) => [responseBody.data, ...prevClothing]);
           closeModals();
+          resetForm();
         })
         .catch((err) => {
           console.error(err);
@@ -196,9 +200,7 @@ function App() {
       .then((data) => {
         setClothing(data.reverse());
       })
-      .catch((err) => {
-        console.error(err);
-      });
+      .catch(console.error);
   }, []);
 
   //CLOSE MODAL

@@ -37,10 +37,13 @@ const LoginModal = React.memo(
       }
     }, [errMsgs, inputValues]);
 
+    function resetForm() {
+      setInputValues({});
+    }
+
     function handleSubmit() {
       const { loginEmail: email, loginPassword: password } = inputValues;
-      loginUser({ email, password });
-      setInputValues({});
+      loginUser({ email, password }, resetForm);
     }
 
     const secondFormBtn = (

@@ -39,7 +39,9 @@ const Header = React.memo(
                 {avatar ? (
                   <img className="header__avatar" src={avatar} alt={name} />
                 ) : (
-                  <div className="header__avatar-placeholder">{name[0]}</div>
+                  <div className="header__avatar-placeholder">
+                    {name ? name[0] : ""}
+                  </div>
                 )}
               </Link>
             </>

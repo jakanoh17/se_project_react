@@ -43,9 +43,12 @@ const RegisterModal = React.memo(
       }
     }, [errMsgs, inputs]);
 
-    function handleSubmit() {
-      registerAndLoginUser(inputs);
+    function resetForm() {
       setInputs({});
+    }
+
+    function handleSubmit() {
+      registerAndLoginUser(inputs, resetForm);
     }
 
     const secondFormBtn = (
