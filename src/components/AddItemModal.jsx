@@ -17,15 +17,8 @@ const AddItemModal = React.memo(
       setIsValid(false);
     }, []);
 
-    function resetAddCardForm() {
-      // Resets the radio input, an uncontrolled input
-      document.querySelector(".form_type_add-garment").reset();
-      // Resets the remaining inputs, controlled inputs
-      resetForm();
-    }
-
     function handleSubmit() {
-      onAddItem(values, resetAddCardForm);
+      onAddItem(values, resetForm);
     }
 
     return (
@@ -77,7 +70,8 @@ const AddItemModal = React.memo(
                 type="radio"
                 name="weather"
                 value="hot"
-                onClick={handleChange}
+                onChange={handleChange}
+                checked={values.weather === "hot"}
                 id="hot"
                 className="form__input form__input_type_radio"
               />
@@ -91,7 +85,8 @@ const AddItemModal = React.memo(
                 type="radio"
                 name="weather"
                 value="warm"
-                onClick={handleChange}
+                onChange={handleChange}
+                checked={values.weather === "warm"}
                 id="warm"
                 className="form__input form__input_type_radio"
               />
@@ -105,7 +100,8 @@ const AddItemModal = React.memo(
                 type="radio"
                 name="weather"
                 value="cold"
-                onClick={handleChange}
+                onChange={handleChange}
+                checked={values.weather === "cold"}
                 id="cold"
                 className="form__input form__input_type_radio"
               />
