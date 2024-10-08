@@ -1,12 +1,26 @@
 import React from "react";
 import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
 import { styledWeatherTypes } from "../utils/constants";
+import atmosphere from "../assets/atmosphere.svg";
+import clouds from "../assets/clouds.svg";
+import rain from "../assets/rain.svg";
+import thunderstorm from "../assets/thunderstorm.svg";
+import snow from "../assets/snow.svg";
 
 const WeatherCard = React.memo(({ temp, weatherType }) => {
   const { currentTemperatureUnit } = React.useContext(
     CurrentTemperatureUnitContext
   );
   const [weather, setWeather] = React.useState("clear");
+  const weatherImgs = {
+    atmosphere,
+    clouds,
+    rain,
+    thunderstorm,
+    snow,
+    clear:
+      "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+  };
   // const [dayOrNight, setDayOrNight] = React.useState("");
   // const [now, setNow] = React.useState(new Date().getHours());
 
@@ -38,7 +52,7 @@ const WeatherCard = React.memo(({ temp, weatherType }) => {
         className={`wthr-card__celest-bod wthr-card__celest-bod_wthr-type_${weather}`}
       ></div>
       <img
-        src={`/src/assets/${weather}.svg`}
+        src={weatherImgs[weather]}
         alt="Clouds"
         className={`wthr-card__clouds wthr-card__clouds_wthr-type_${weather}`}
       />

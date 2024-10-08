@@ -21,8 +21,12 @@ import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitCon
 import CurrentUserContext from "../contexts/CurrentUserContext.js";
 import EditProfileModal from "./EditProfileModal.jsx";
 
-const authorizeUser = new AuthorizeUser("http://localhost:3001");
-const api = new Api("http://localhost:3001");
+const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://api.wtwr.us.to"
+    : "http://localhost:49152";
+const authorizeUser = new AuthorizeUser(baseUrl);
+const api = new Api(baseUrl);
 
 function App() {
   const [city, setCity] = React.useState("");
@@ -202,7 +206,6 @@ function App() {
     api
       .getCards()
       .then((data) => {
-        console.log(123);
         setClothing(data.reverse());
       })
       .catch(console.error);

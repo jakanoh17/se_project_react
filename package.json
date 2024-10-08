@@ -3,12 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://wtwr.us.to",
   "scripts": {
-    "start":"json-server --watch db.json --id _id --port 3002",
+    "start": "json-server --watch db.json --id _id --port 3002",
     "dev": "vite --open",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "npm run build && scp -r ./dist/* jakanoh17@wtwr.us.to:/home/jakanoh17/frontend"
   },
   "dependencies": {
     "react": "^18.2.0",
